@@ -11,11 +11,15 @@ import util.PropertiesStore;
 
 public class ProjectDashBoardPage {
 	WebDriver driver;
-
-	public ProjectDashBoardPage(WebDriver driver) {
-		this.driver = driver;
-	}
+	private String team;
+	protected String ComboSelectTeam = "ul li:nth-child(%INDEX%)";
 	
+	public ProjectDashBoardPage(WebDriver driver) throws IOException {
+		this.driver = driver;
+		team = PropertiesStore.getProperty("team");
+	}
+	protected WebElement comboTeam;
+
 	@FindBy(id = "jazz_ui_MenuPopup_4")
 	private WebElement plansMenu;
 
@@ -24,16 +28,19 @@ public class ProjectDashBoardPage {
 
 	@FindBy(css = "div.ValueHolder.ViewBorder")
 	private WebElement allTeamAreas;
-	
-	@FindBy(id = "com_ibm_team_workitem_web_mvvm_view_queryable_combo_QueryableSection_QueryableElement_37")
+
+	@FindBy(css = "ul li:nth-child(6)")
 	private WebElement teamKDD;
+	
+	@FindBy(css = "div.entry.unselected.children.expanded div.entryChildren div:first-child a")
+	private WebElement sprint;
 	
 	public void clickPlansMenu() {
 		plansMenu.click();
 		waitForPlanMenuAppear();
 	}
-	
-	public void clickAllPlans(){
+
+	public void clickAllPlans() {
 		allPlans.click();
 		try {
 			Thread.sleep(1000);
@@ -41,19 +48,48 @@ public class ProjectDashBoardPage {
 			e.printStackTrace();
 		}
 	}
-	
-	public void selectTeam(){
+
+	public void selectTeamArea() {
 		allTeamAreas.click();
+		waitForComboTeamAppear();
 	}
-	
-	public void selectTeamKDD(){
+
+	public void selectTeamKDD() {
 		teamKDD.click();
 	}
 	
+	public void clickSprint() {
+		sprint.click();
+	}
+	
+		
+	public void chooseTeam() {
+		chooseTeamFromCombo(team);
+		waitForListSprintAppear();
+	}
+	
+	public void chooseTeamFromCombo(String index) {
+		clickSelectTeamFromCombo(comboTeam,index);
+	}
+	
+	protected void clickSelectTeamFromCombo(WebElement comboTeam, String index) {
+		String choosenSelector = ComboSelectTeam.replace("%INDEX%", index);
+		comboTeam = driver.findElement(By.cssSelector(choosenSelector));
+		comboTeam.click();
+	}
 
 	private void waitForPlanMenuAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector("#jazz_ui_MenuPopup_4_dropdown"));
 	}
 	
+	private void waitForComboTeamAppear() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.presenceOfTheElement(By.cssSelector("ul li:nth-child(6)"));
+	}
+	
+	private void waitForListSprintAppear() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.presenceOfTheElement(By.cssSelector("div.entryChildren"));
+	}
 }

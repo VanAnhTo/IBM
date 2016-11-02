@@ -65,4 +65,18 @@ public class Login_Steps {
 		user.selectTeamArea();
 	}
 
+	@And("I choose team")
+	public void i_choose_team() {
+		user.chooseTeam();
+	}
+	
+	@And("I choose KDD team")
+	public void i_choose_team_KDD() {
+		user.chooseTeamKDD();
+	}
+	
+	@And("I click sprint")
+	public void i_click_sprint() {
+		user.clickSprint();
+	}
 }

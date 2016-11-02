@@ -35,6 +35,23 @@ public class Specification {
 	
 	public void selectTeamArea() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
-		onProjectDashBoardPagee.selectTeam();
+		onProjectDashBoardPagee.selectTeamArea();
 	}
+
+	public void chooseTeam() {
+		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
+		onProjectDashBoardPagee.chooseTeam();
+		
+	}
+
+	public void chooseTeamKDD() {
+		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
+		onProjectDashBoardPagee.selectTeamKDD();
+	}
+
+	public void clickSprint() {
+		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
+		onProjectDashBoardPagee.clickSprint();	
+	}
+
 }

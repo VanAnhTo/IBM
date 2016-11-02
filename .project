@@ -3,6 +3,8 @@
 	<name>IBM</name>
 	<comment></comment>
 	<projects>
+		<project>Drug</project>
+		<project>TTNS</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

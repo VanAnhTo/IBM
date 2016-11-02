@@ -38,6 +38,7 @@ public class LoginPage {
 	}
 
 	public void loginToMainPage(LoginDetails loginDetails) {
+		waitForLoginPageAppear() ;
 		this.enterUsernameAs(loginDetails.getUsername());
 		this.enterPasswordAs(loginDetails.getPassword());
 		loginButton.click();
@@ -45,6 +46,11 @@ public class LoginPage {
 
 	}
 
+	private void waitForLoginPageAppear() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.presenceOfTheElement(By.cssSelector("div.main-wrapper"));
+	}
+	
 	private void waitForHomePageAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector("div.my-projects.section"));
