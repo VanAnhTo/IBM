@@ -1,8 +1,11 @@
 package util;
 
 import domain.detail.account.LoginDetails;
+import domain.detail.task.TaskNameDetail;
 import page.LoginPage;
 import page.ProjectDashBoardPage;
+import page.TaskDetailPage;
+import page.CurrentSprintPage;
 import page.HomePage;
 
 public class Specification {
@@ -49,9 +52,36 @@ public class Specification {
 		onProjectDashBoardPagee.selectTeamKDD();
 	}
 
-	public void clickSprint() {
+	public void clickCurrentSprint() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
-		onProjectDashBoardPagee.clickSprint();	
+		onProjectDashBoardPagee.clickCurrentSprint();	
 	}
+
+	public void clickAddNewWorkItem() {
+		CurrentSprintPage onCurrentSprintPage = pageStore.get(CurrentSprintPage.class);
+		onCurrentSprintPage.clickDropDownAddWorkItem();			
+	}
+
+	public void clickAddNewTask() {
+		CurrentSprintPage onCurrentSprintPage = pageStore.get(CurrentSprintPage.class);
+		onCurrentSprintPage.clickTaskOnDropDown();	
+	}
+
+	public void goToDetailTaskPage(TaskNameDetail taskDetail) {
+		CurrentSprintPage onCurrentSprintPage = pageStore.get(CurrentSprintPage.class);
+		onCurrentSprintPage.gotoTaskDetailPage(taskDetail);
+	}
+
+	public void clickOwnedBy() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.chooseOwnedBy();
+	}
+
+	public void enterTimeEstimate(TaskNameDetail taskDetail) {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.enterWith(taskDetail);
+	}
+	
+	
 
 }

@@ -13,11 +13,12 @@ public class ProjectDashBoardPage {
 	WebDriver driver;
 	private String team;
 	protected String ComboSelectTeam = "ul li:nth-child(%INDEX%)";
-	
+
 	public ProjectDashBoardPage(WebDriver driver) throws IOException {
 		this.driver = driver;
 		team = PropertiesStore.getProperty("team");
 	}
+
 	protected WebElement comboTeam;
 
 	@FindBy(id = "jazz_ui_MenuPopup_4")
@@ -31,10 +32,10 @@ public class ProjectDashBoardPage {
 
 	@FindBy(css = "ul li:nth-child(6)")
 	private WebElement teamKDD;
-	
+
 	@FindBy(css = "div.entry.unselected.children.expanded div.entryChildren div:first-child a")
-	private WebElement sprint;
-	
+	private WebElement currentSprint;
+
 	public void clickPlansMenu() {
 		plansMenu.click();
 		waitForPlanMenuAppear();
@@ -42,54 +43,81 @@ public class ProjectDashBoardPage {
 
 	public void clickAllPlans() {
 		allPlans.click();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		waitForStatusMessageAppear();
+		waitForStatusMessageHidden();
+		waitForAllPlansAppear();
 	}
 
 	public void selectTeamArea() {
 		allTeamAreas.click();
+		waitForStatusMessageAppear();
+		waitForStatusMessageHidden();
 		waitForComboTeamAppear();
 	}
 
-	public void selectTeamKDD() {
-		teamKDD.click();
-	}
-	
-	public void clickSprint() {
-		sprint.click();
-	}
-	
-		
 	public void chooseTeam() {
 		chooseTeamFromCombo(team);
-		waitForListSprintAppear();
+		waitForDropDownTeamsHidden();
+		waitForStatusMessageAppear();
+		waitForStatusMessageHidden();
 	}
-	
+
+	public void clickCurrentSprint() {
+		currentSprint.click();
+		waitForStatusMessageAppear();
+		waitForStatusMessageHidden();
+		waitContentOfCurrentSprintAppear();
+	}
+
 	public void chooseTeamFromCombo(String index) {
-		clickSelectTeamFromCombo(comboTeam,index);
+		clickSelectTeamFromCombo(comboTeam, index);
 	}
-	
+
 	protected void clickSelectTeamFromCombo(WebElement comboTeam, String index) {
 		String choosenSelector = ComboSelectTeam.replace("%INDEX%", index);
 		comboTeam = driver.findElement(By.cssSelector(choosenSelector));
 		comboTeam.click();
 	}
 
+	public void selectTeamKDD() {
+		teamKDD.click();
+	}
+
 	private void waitForPlanMenuAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector("#jazz_ui_MenuPopup_4_dropdown"));
 	}
-	
+
 	private void waitForComboTeamAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
-		wait.presenceOfTheElement(By.cssSelector("ul li:nth-child(6)"));
+		wait.presenceOfTheElement(By.cssSelector(
+				"div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable"));
+	}
+
+	private void waitForDropDownTeamsHidden() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.hiddenOfTheElement(By.cssSelector(
+				"div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable"));
+	}
+
+	private void waitForStatusMessageAppear() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.presenceOfTheElement(By.cssSelector("div.status-message"));
+	}
+
+	private void waitForStatusMessageHidden() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.hiddenOfTheElement(By.cssSelector("div.status-message"));
+	}
+
+	private void waitForAllPlansAppear() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.presenceOfTheElement(By.cssSelector("div.results"));
 	}
 	
-	private void waitForListSprintAppear() {
+	private void waitContentOfCurrentSprintAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
-		wait.presenceOfTheElement(By.cssSelector("div.entryChildren"));
+		wait.presenceOfTheElement(By.cssSelector("div.root.children.expanded"));
 	}
+
 }

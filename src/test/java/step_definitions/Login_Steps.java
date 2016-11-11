@@ -65,7 +65,7 @@ public class Login_Steps {
 		user.selectTeamArea();
 	}
 
-	@And("I choose team")
+	@And("I choose a team")
 	public void i_choose_team() {
 		user.chooseTeam();
 	}
@@ -75,8 +75,8 @@ public class Login_Steps {
 		user.chooseTeamKDD();
 	}
 	
-	@And("I click sprint")
-	public void i_click_sprint() {
-		user.clickSprint();
+	@And("I click current sprint")
+	public void i_click_current_sprint() {
+		user.clickCurrentSprint();
 	}
 }
