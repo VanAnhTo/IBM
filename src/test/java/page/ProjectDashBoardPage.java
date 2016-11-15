@@ -31,7 +31,7 @@ public class ProjectDashBoardPage {
 	private WebElement allTeamAreas;
 
 	@FindBy(css = "ul li:nth-child(6)")
-	private WebElement teamKDD;
+	private WebElement teamPharmacy;
 
 	@FindBy(css = "div.entry.unselected.children.expanded div.entryChildren div:first-child a")
 	private WebElement currentSprint;
@@ -80,7 +80,7 @@ public class ProjectDashBoardPage {
 	}
 
 	public void selectTeamKDD() {
-		teamKDD.click();
+		teamPharmacy.click();
 	}
 
 	private void waitForPlanMenuAppear() {
