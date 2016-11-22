@@ -4,21 +4,21 @@ import org.openqa.selenium.WebDriver;
 
 import cucumber.api.java.en.And;
 import domain.builder.account.LoginDetailBuilder;
-import domain.builder.task.TaskNamelBuilder;
-import domain.detail.task.TaskNameDetail;
+import domain.builder.task.TaskDetailBuilder;
+import domain.detail.task.TaskDetail;
 import util.PageStore;
 import util.Specification;
 
 public class AddDetailTask_Steps {
 	public WebDriver driver;
 	LoginDetailBuilder builder;
-	TaskNamelBuilder taskBuilder;
+	TaskDetailBuilder taskBuilder;
 	Specification user;
 	PageStore pageStore;
 
 	public AddDetailTask_Steps() {
 		this.builder = new LoginDetailBuilder();
-		this.taskBuilder = new TaskNamelBuilder();
+		this.taskBuilder = new TaskDetailBuilder();
 		this.driver = Hooks.driver;
 		this.pageStore = new PageStore(driver);
 		this.user = new Specification(pageStore);
@@ -41,11 +41,11 @@ public class AddDetailTask_Steps {
 	
 	@And("I go to detail task page")
 	public void i_go_to_task_page() {
-		TaskNameDetail taskDetail = taskBuilder.build();
+		TaskDetail taskDetail = taskBuilder.build();
 		user.goToDetailTaskPage(taskDetail);
 	}
 	
-	@And("I click onwned by")
+	@And("I click owned by")
 	public void i_click_owned_by() {
 		user.clickOwnedBy();
 	}
@@ -53,8 +53,35 @@ public class AddDetailTask_Steps {
 	@And("I enter time estimate \"(.*)\"")
 	public void i_enter_time_estimate(String timeEstimate) {
 		taskBuilder.withTimeEstimate(timeEstimate);
-		TaskNameDetail taskDetail = taskBuilder.build();
+		TaskDetail taskDetail = taskBuilder.build();
 		user.enterTimeEstimate(taskDetail);
+	}
+	
+	@And("I choose due date")
+	public void i_choose_due_date() {
+		user.chooseDueDate();
+	}
+	
+	@And("I click tab time tracking")
+	public void i_click_tab_time_tracking() {
+		user.clickTabTimeTracking();
+	}
+	
+	@And("I choose task group")
+	public void i_choose_task_gruop() {
+		user.chooseTaskGroup();
+	}
+	
+	@And("I click to add time entry row")
+	public void i_click_to_add_time_entry_row() {
+		user.clickToAddTimeEntryRow();
+	}
+	
+	@And("I add time tracking with \"(.*)\" and \"(.*)\"")
+	public void i_add_time_tracking(String workDay, String workHour) {
+		taskBuilder.withTimeTracking(workDay, workHour);
+		TaskDetail taskDetail = taskBuilder.build();
+		user.enterTimeTracking(taskDetail);
 	}
 		
 }

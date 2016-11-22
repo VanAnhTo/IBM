@@ -79,7 +79,7 @@ public class ProjectDashBoardPage {
 		comboTeam.click();
 	}
 
-	public void selectTeamKDD() {
+	public void selectTeamPharmacy() {
 		teamPharmacy.click();
 	}
 

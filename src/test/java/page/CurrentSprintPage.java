@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import domain.detail.task.TaskNameDetail;
+import domain.detail.task.TaskDetail;
 
 public class CurrentSprintPage {
 	WebDriver driver;
@@ -42,7 +42,7 @@ public class CurrentSprintPage {
 		txtTaskName.sendKeys(taskName);
 	}
 
-	public void gotoTaskDetailPage(TaskNameDetail taskDetail) {
+	public void gotoTaskDetailPage(TaskDetail taskDetail) {
 		this.enterTaskName(taskDetail.getTaskName());
 		txtTaskName.sendKeys(Keys.ENTER);
 		linkTaskName.sendKeys(Keys.ENTER);

@@ -23,12 +23,17 @@ Background:
     And I enter with "<taskName>"
     And I go to detail task page
     And I enter time estimate "<timeEstimate>"
-    And I click onwned by
+    And I click owned by
+    And I choose due date
+    And I click tab time tracking
+    And I choose task group
+    And I click to add time entry row
+    And I add time tracking with "<workDay>" and "<workHour>"
 
     
-    Examples: List values
-      | taskName  |timeEstimate|
-      | This is task name | 8|
+    Examples: List of values
+      | taskName  		  |timeEstimate |workDay	|workHour|
+      | This is task name | 8			| 	9		|	8	 |
       
    @wip
    Scenario: Login success to IBM

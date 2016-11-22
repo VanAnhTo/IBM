@@ -5,10 +5,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import domain.detail.task.TaskNameDetail;
+import domain.detail.task.TaskDetail;
 
 public class TaskDetailPage {
 	WebDriver driver;
+	protected WebElement timeTracking;
+
+	protected String txtTimeTracking = "table.tptTable.tptTSTable tbody tr td:nth-child(%INDEX%) input";
+	
+	private String elementForDropDown = "div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable";
+	private String elementForDropDownCalendarDueDateHidden = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow.Hidden";
+	private String elementForDropDownCalendarDueDateAppear = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow";
 
 	public TaskDetailPage(WebDriver driver) {
 		this.driver = driver;
@@ -17,7 +24,8 @@ public class TaskDetailPage {
 	@FindBy(css = ".Column.leftColumn tbody tr:nth-child(8) div.ValueHolder.ViewBorder")
 	private WebElement dropDownOwnedBy;
 
-	@FindBy(css = "div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable div.SelectOptions ul li:nth-child(2)")
+	//@FindBy(xpath = "/html/body/div[13]/div[2]/div[1]/ul/li[2]")
+	@FindBy(css = "body>div:last-child ul li:nth-child(2)")
 	private WebElement ownedBy;
 
 	@FindBy(css = ".EstimateWidget2 .com-ibm-team-apt-web-ui-internal-parts-DurationWidget")
@@ -31,24 +39,31 @@ public class TaskDetailPage {
 
 	@FindBy(css = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow div a.OkButton")
 	private WebElement btnOkDueDate;
-	
+
 	@FindBy(css = "div.ValueHolder.ViewBorder")
 	private WebElement cbxTaskGroupOnTabTimeTracking;
-	
+
 	@FindBy(css = "div.SelectOptions ul li:nth-child(11)")
 	private WebElement taskGroupOnTabTimeTracking;
-	
+
 	@FindBy(css = "div.TabArea a:nth-child(5)")
 	private WebElement tabTimeTracking;
-	
+
 	@FindBy(css = "span#Timecode_addButton span a span:nth-child(2)")
 	private WebElement linkTextTimeEntryRow;
 
+	@FindBy(css = "span.CommandArea button.primary-button")
+	private WebElement btnSave;
+
+	public void clickSaveTask() {
+		btnSave.click();
+	}
+
 	public void chooseOwnedBy() {
 		dropDownOwnedBy.click();
-		waitForDropDownOwnedAppear();
+		waitForDropDownAppear();
 		ownedBy.click();
-		waitForDropDownOwnedHidden();
+		waitForDropDownHidden();
 	}
 
 	public void chooseDueDate() {
@@ -63,31 +78,54 @@ public class TaskDetailPage {
 		txtEstimate.sendKeys(timeEstimate);
 	}
 
-	public void enterWith(TaskNameDetail timeEstimate) {
+	public void enterTimeEstimateWith(TaskDetail timeEstimate) {
 		this.enterTimeEstimate(timeEstimate.getTimeEstimate());
 	}
 
-	private void waitForDropDownOwnedAppear() {
-		util.WaitFor wait = new util.WaitFor(driver);
-		wait.presenceOfTheElement(By.cssSelector(
-				"div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable"));
+	public void clickTabTimeTracking() {
+		tabTimeTracking.click();
+	}
+	
+	public void chooseTaskGroup() {
+		cbxTaskGroupOnTabTimeTracking.click();
+		waitForDropDownAppear();
+		taskGroupOnTabTimeTracking.click();
+		waitForDropDownHidden();
 	}
 
-	private void waitForDropDownOwnedHidden() {
+	public void clickToAddTimeEntryRow() {
+		linkTextTimeEntryRow.click();
+	}
+
+	public void enterTimeTracking(String index, String workHour) {
+		this.enterTimeTracking(timeTracking, index, workHour);
+	}
+
+	protected void enterTimeTracking(WebElement txtWorkHour, String index, String workHour) {
+		String timeTracking = txtTimeTracking.replace("%INDEX%", index);
+		txtWorkHour = driver.findElement(By.cssSelector(timeTracking));
+		txtWorkHour.clear();
+		txtWorkHour.sendKeys(workHour);
+	}	
+	
+	private void waitForDropDownAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
-		wait.hiddenOfTheElement(By.cssSelector(
-				"div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable"));
+		wait.presenceOfTheElement(By.cssSelector(elementForDropDown));
+	}
+
+	private void waitForDropDownHidden() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.hiddenOfTheElement(By.cssSelector(elementForDropDown));
 	}
 
 	private void waitForDropDownCalendarDueDateHidden() {
 		util.WaitFor wait = new util.WaitFor(driver);
-		wait.presenceOfTheElement(By
-				.cssSelector("div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow.Hidden"));
+		wait.presenceOfTheElement(By.cssSelector(elementForDropDownCalendarDueDateHidden));
 	}
 
 	private void waitForDropDownCalendarDueDateAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
-		wait.presenceOfTheElement(
-				By.cssSelector("div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow"));
+		wait.presenceOfTheElement(By.cssSelector(elementForDropDownCalendarDueDateAppear));
 	}
+
 }

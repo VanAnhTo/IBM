@@ -1,7 +1,7 @@
 package util;
 
 import domain.detail.account.LoginDetails;
-import domain.detail.task.TaskNameDetail;
+import domain.detail.task.TaskDetail;
 import page.LoginPage;
 import page.ProjectDashBoardPage;
 import page.TaskDetailPage;
@@ -30,12 +30,12 @@ public class Specification {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.clickPlansMenu();
 	}
-	
+
 	public void clickAllPlans() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.clickAllPlans();
 	}
-	
+
 	public void selectTeamArea() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.selectTeamArea();
@@ -44,30 +44,30 @@ public class Specification {
 	public void chooseTeam() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.chooseTeam();
-		
+
 	}
 
 	public void chooseTeamKDD() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
-		onProjectDashBoardPagee.selectTeamKDD();
+		onProjectDashBoardPagee.selectTeamPharmacy();
 	}
 
 	public void clickCurrentSprint() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
-		onProjectDashBoardPagee.clickCurrentSprint();	
+		onProjectDashBoardPagee.clickCurrentSprint();
 	}
 
 	public void clickAddNewWorkItem() {
 		CurrentSprintPage onCurrentSprintPage = pageStore.get(CurrentSprintPage.class);
-		onCurrentSprintPage.clickDropDownAddWorkItem();			
+		onCurrentSprintPage.clickDropDownAddWorkItem();
 	}
 
 	public void clickAddNewTask() {
 		CurrentSprintPage onCurrentSprintPage = pageStore.get(CurrentSprintPage.class);
-		onCurrentSprintPage.clickTaskOnDropDown();	
+		onCurrentSprintPage.clickTaskOnDropDown();
 	}
 
-	public void goToDetailTaskPage(TaskNameDetail taskDetail) {
+	public void goToDetailTaskPage(TaskDetail taskDetail) {
 		CurrentSprintPage onCurrentSprintPage = pageStore.get(CurrentSprintPage.class);
 		onCurrentSprintPage.gotoTaskDetailPage(taskDetail);
 	}
@@ -77,11 +77,34 @@ public class Specification {
 		onTaskDetailPage.chooseOwnedBy();
 	}
 
-	public void enterTimeEstimate(TaskNameDetail taskDetail) {
+	public void enterTimeEstimate(TaskDetail taskDetail) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.enterWith(taskDetail);
+		onTaskDetailPage.enterTimeEstimateWith(taskDetail);
 	}
-	
-	
+
+	public void chooseDueDate() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.chooseDueDate();
+	}
+
+	public void clickTabTimeTracking() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.clickTabTimeTracking();
+	}
+
+	public void chooseTaskGroup() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.chooseTaskGroup();
+	}
+
+	public void clickToAddTimeEntryRow() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.clickToAddTimeEntryRow();
+	}
+
+	public void enterTimeTracking(TaskDetail taskDetail) {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.enterTimeTracking(taskDetail.getWorkDay(), taskDetail.getTimeTracking());
+	}
 
 }
