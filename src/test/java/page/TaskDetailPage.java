@@ -78,6 +78,9 @@ public class TaskDetailPage {
 	private WebElement optionStartWorking;
 	
 	@FindBy(css = ".workItemEditor div.SummaryArea.DynamicHeaderArea .Select option:nth-child(4)")
+	private WebElement optionInvalid;
+	
+	@FindBy(css = ".workItemEditor div.SummaryArea.DynamicHeaderArea .Select option:nth-child(3)")
 	private WebElement optionComplete;
 	
 	
@@ -88,7 +91,7 @@ public class TaskDetailPage {
 	
 	public void clickComplete(){
 		cbxStatus.click();
-		optionComplete.click();
+		optionInvalid.click();
 	}
 	
 
