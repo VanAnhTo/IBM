@@ -83,5 +83,11 @@ public class AddDetailTask_Steps {
 		TaskDetail taskDetail = taskBuilder.build();
 		user.enterTimeTracking(taskDetail);
 	}
-		
+	
+	@And("I enter due date \"(.*)\"")
+	public void i_add_due_date(String dueDate) {
+		taskBuilder.withDueDate(dueDate);
+		TaskDetail taskDetail = taskBuilder.build();
+		user.enterDueDate(taskDetail);
+	}	
 }

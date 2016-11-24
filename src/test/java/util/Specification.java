@@ -107,4 +107,9 @@ public class Specification {
 		onTaskDetailPage.enterTimeTracking(taskDetail.getWorkDay(), taskDetail.getTimeTracking());
 	}
 
+	public void enterDueDate(TaskDetail taskDetail) {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.enterDueDateWith(taskDetail);
+	}
+
 }

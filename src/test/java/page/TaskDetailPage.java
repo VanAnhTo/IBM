@@ -1,6 +1,12 @@
 package page;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,10 +15,12 @@ import domain.detail.task.TaskDetail;
 
 public class TaskDetailPage {
 	WebDriver driver;
-	protected WebElement timeTracking;
+	private WebElement timeTracking;
+	private String timeDueDate;
+	// private String dayInTimeTracking;
 
 	protected String txtTimeTracking = "table.tptTable.tptTSTable tbody tr td:nth-child(%INDEX%) input";
-	
+
 	private String elementForDropDown = "div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable";
 	private String elementForDropDownCalendarDueDateHidden = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow.Hidden";
 	private String elementForDropDownCalendarDueDateAppear = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow";
@@ -24,7 +32,6 @@ public class TaskDetailPage {
 	@FindBy(css = ".Column.leftColumn tbody tr:nth-child(8) div.ValueHolder.ViewBorder")
 	private WebElement dropDownOwnedBy;
 
-	//@FindBy(xpath = "/html/body/div[13]/div[2]/div[1]/ul/li[2]")
 	@FindBy(css = "body>div:last-child ul li:nth-child(2)")
 	private WebElement ownedBy;
 
@@ -55,6 +62,85 @@ public class TaskDetailPage {
 	@FindBy(css = "span.CommandArea button.primary-button")
 	private WebElement btnSave;
 
+	@FindBy(css = "div.DatePicker input.dateInput.ViewBorder")
+	private WebElement txtDueDate;
+
+	@FindBy(css = "td#Timesheet_weekTextBox div.dijitReset.dijitInputField.dijitInputContainer input.dijitReset")
+	private WebElement txtDateTimeTracking;
+
+	@FindBy(css = "td#Timesheet_previous_button a")
+	private WebElement btnPrevious;
+
+	private int getWeekOfDueDate(String content) {
+		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
+		int weekOfDate = 0;
+		try {
+			Calendar cal = Calendar.getInstance();
+			Date date = formatter.parse(content);
+			cal.setTime(date);
+			weekOfDate = cal.get(Calendar.WEEK_OF_YEAR);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return weekOfDate;
+	}
+	
+	private int getWeekOfDateTimeTracking(String content) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		int weekOfDate = 0;
+		try {
+			Calendar cal = Calendar.getInstance();
+			Date date = formatter.parse(content);
+			cal.setTime(date);
+			weekOfDate = cal.get(Calendar.WEEK_OF_YEAR);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return weekOfDate;
+	}
+
+	private String getExcuteJavaScript() {
+		String s = "document.querySelector('td#Timesheet_weekTextBox div.dijitReset.dijitInputField.dijitInputContainer input:nth-child(2)').value;" +
+					"return document.querySelector('td#Timesheet_weekTextBox div.dijitReset.dijitInputField.dijitInputContainer input:nth-child(2)').value";
+		return (String) ((JavascriptExecutor) driver).executeScript(s);
+	}
+
+	private String getDayInTimeTracking() {
+		String dayInTimeTracking = getExcuteJavaScript();
+		System.out.println("day in time tracking: " + dayInTimeTracking);
+		return dayInTimeTracking;
+	}
+
+	private void clickPreviousButton() {
+		try {
+			int weekOfDueDate = getWeekOfDueDate(timeDueDate);
+			System.out.println("week of due date: " + weekOfDueDate);
+			String dayInTimeTracking = getDayInTimeTracking();
+			int weekOfTimeTracking = getWeekOfDateTimeTracking(dayInTimeTracking);
+			System.out.println("week of time tracking: " + weekOfTimeTracking);
+			if (weekOfTimeTracking > weekOfDueDate) {
+				for (int i = 0; i < weekOfTimeTracking - weekOfDueDate; i++) {
+					btnPrevious.click();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void enterDueDate(String dueDate) {
+		txtDueDate.click();
+		txtDueDate.clear();
+		txtDueDate.sendKeys(dueDate);
+		this.timeDueDate = dueDate.substring(0, 12);
+		System.out.println("Due date is: " + timeDueDate);
+	}
+
+	public void enterDueDateWith(TaskDetail dueDate) {
+		this.enterDueDate(dueDate.getDueDate());
+	}
+
 	public void clickSaveTask() {
 		btnSave.click();
 	}
@@ -73,7 +159,7 @@ public class TaskDetailPage {
 		waitForDropDownCalendarDueDateHidden();
 	}
 
-	public void enterTimeEstimate(String timeEstimate) {
+	private void enterTimeEstimate(String timeEstimate) {
 		estimateFeild.click();
 		txtEstimate.sendKeys(timeEstimate);
 	}
@@ -85,7 +171,7 @@ public class TaskDetailPage {
 	public void clickTabTimeTracking() {
 		tabTimeTracking.click();
 	}
-	
+
 	public void chooseTaskGroup() {
 		cbxTaskGroupOnTabTimeTracking.click();
 		waitForDropDownAppear();
@@ -94,6 +180,7 @@ public class TaskDetailPage {
 	}
 
 	public void clickToAddTimeEntryRow() {
+		clickPreviousButton();
 		linkTextTimeEntryRow.click();
 	}
 
@@ -106,8 +193,8 @@ public class TaskDetailPage {
 		txtWorkHour = driver.findElement(By.cssSelector(timeTracking));
 		txtWorkHour.clear();
 		txtWorkHour.sendKeys(workHour);
-	}	
-	
+	}
+
 	private void waitForDropDownAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector(elementForDropDown));
