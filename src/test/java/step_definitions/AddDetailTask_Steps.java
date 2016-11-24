@@ -90,4 +90,29 @@ public class AddDetailTask_Steps {
 		TaskDetail taskDetail = taskBuilder.build();
 		user.enterDueDate(taskDetail);
 	}	
+	
+	@And("I click save task")
+	public void i_click_save_task() {
+		user.clickSaveTask();
+	}
+	
+	@And("I change status to start working")
+	public void i_change_status_to_start_working() {
+		user.changeStatusToStartWorking();
+	}
+	
+	@And("I save status has changed")
+	public void i_save_status_has_changed() {
+		user.clickSaveTask();
+	}
+	
+	@And("I change status to complete")
+	public void i_change_status_to_complete() {
+		user.changeStatusToComplete();
+	}
+	
+	@And("I click save to complete")
+	public void i_click_save_to_complete() {
+		user.clickSaveTask();
+	}
 }

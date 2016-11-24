@@ -59,9 +59,6 @@ public class TaskDetailPage {
 	@FindBy(css = "span#Timecode_addButton span a span:nth-child(2)")
 	private WebElement linkTextTimeEntryRow;
 
-	@FindBy(css = "span.CommandArea button.primary-button")
-	private WebElement btnSave;
-
 	@FindBy(css = "div.DatePicker input.dateInput.ViewBorder")
 	private WebElement txtDueDate;
 
@@ -69,7 +66,31 @@ public class TaskDetailPage {
 	private WebElement txtDateTimeTracking;
 
 	@FindBy(css = "td#Timesheet_previous_button a")
-	private WebElement btnPrevious;
+	private WebElement btnPrevious;	
+
+	@FindBy(css = "span.CommandArea button.primary-button")
+	private WebElement btnSave;
+
+	@FindBy(css = "div.SummaryArea.DynamicHeaderArea div.fieldWrapper")
+	private WebElement cbxStatus;
+	
+	@FindBy(css = "div.SummaryArea.DynamicHeaderArea .Select option:nth-child(2)")
+	private WebElement optionStartWorking;
+	
+	@FindBy(css = ".workItemEditor div.SummaryArea.DynamicHeaderArea .Select option:nth-child(4)")
+	private WebElement optionComplete;
+	
+	
+	public void clickStartWorking(){
+		cbxStatus.click();
+		optionStartWorking.click();
+	}
+	
+	public void clickComplete(){
+		cbxStatus.click();
+		optionComplete.click();
+	}
+	
 
 	private int getWeekOfDueDate(String content) {
 		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
@@ -141,10 +162,6 @@ public class TaskDetailPage {
 		this.enterDueDate(dueDate.getDueDate());
 	}
 
-	public void clickSaveTask() {
-		btnSave.click();
-	}
-
 	public void chooseOwnedBy() {
 		dropDownOwnedBy.click();
 		waitForDropDownAppear();
@@ -194,7 +211,23 @@ public class TaskDetailPage {
 		txtWorkHour.clear();
 		txtWorkHour.sendKeys(workHour);
 	}
+	
+	public void clickSaveTask() {
+		btnSave.click();
+		waitForStatusMessageAppear();
+		waitForStatusMessageHidden();
+	}
+	
+	private void waitForStatusMessageAppear() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.presenceOfTheElement(By.cssSelector("div.status-message"));
+	}
 
+	private void waitForStatusMessageHidden() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.hiddenOfTheElement(By.cssSelector("div.status-message"));
+	}
+	
 	private void waitForDropDownAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector(elementForDropDown));

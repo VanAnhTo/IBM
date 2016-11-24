@@ -15,7 +15,7 @@ Background:
     And I login
 
 
-  Scenario Outline: Creat work item success
+  Scenario Outline: Create work item success
     And I go to project dashboard page 
     And I click plan menu
     And I click to see all plans
@@ -27,18 +27,23 @@ Background:
     And I enter with "<taskName>"
     And I go to detail task page
     And I enter time estimate "<timeEstimate>"
-    And I enter due date "<duedate>"
+    And I enter due date "<dueDate>"
     And I click owned by
     And I choose due date
     And I click tab time tracking
     And I choose task group
     And I click to add time entry row
     And I add time tracking with "<workDay>" and "<workHour>"
+    And I click save task
+    And I change status to start working
+    And I save status has changed
+    And I change status to complete
+    And I click save to complete
 
     
     Examples: List of values
-      | taskName  		  |timeEstimate |workHour	|workDay |duedate					|
-      | This is task name | 8			| 	8		|	6	 |Nov 09, 2016, 12:00:00 PM	|
+      | taskName  		  |timeEstimate |workHour	|workDay |dueDate					|
+      | Verify chức năng hệ thống | 8			| 	8		|	8	 |Nov 25, 2016, 12:00:00 PM	|
       
    @wip
    Scenario: Login success to IBM

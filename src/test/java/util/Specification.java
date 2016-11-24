@@ -112,4 +112,19 @@ public class Specification {
 		onTaskDetailPage.enterDueDateWith(taskDetail);
 	}
 
+	public void clickSaveTask() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.clickSaveTask();
+	}
+
+	public void changeStatusToStartWorking() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.clickStartWorking();
+	}
+
+	public void changeStatusToComplete() {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.clickComplete();
+	}
+
 }
