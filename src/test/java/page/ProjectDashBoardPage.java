@@ -3,6 +3,7 @@ package page;
 import java.io.IOException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,14 +13,15 @@ import util.PropertiesStore;
 public class ProjectDashBoardPage {
 	WebDriver driver;
 	private String team;
-	protected String ComboSelectTeam = "ul li:nth-child(%INDEX%)";
+	private String comboSelectTeam = "ul li:nth-child(%INDEX%)";
+	private String spanSprint = "//span[contains(text(), \'%INDEX%\')]";
 
 	public ProjectDashBoardPage(WebDriver driver) throws IOException {
 		this.driver = driver;
 		team = PropertiesStore.getProperty("team");
 	}
 
-	protected WebElement comboTeam;
+	private WebElement comboTeam;
 
 	@FindBy(id = "jazz_ui_MenuPopup_4")
 	private WebElement plansMenu;
@@ -30,12 +32,10 @@ public class ProjectDashBoardPage {
 	@FindBy(css = "div.ValueHolder.ViewBorder")
 	private WebElement allTeamAreas;
 
-	@FindBy(css = "ul li:nth-child(6)")
-	private WebElement teamPharmacy;
-
 	@FindBy(css = "div.entry.unselected.children.expanded div.entryChildren div:first-child a")
 	private WebElement currentSprint;
-
+	
+	
 	public void clickPlansMenu() {
 		plansMenu.click();
 		waitForPlanMenuAppear();
@@ -74,13 +74,24 @@ public class ProjectDashBoardPage {
 	}
 
 	protected void clickSelectTeamFromCombo(WebElement comboTeam, String index) {
-		String choosenSelector = ComboSelectTeam.replace("%INDEX%", index);
+		String choosenSelector = comboSelectTeam.replace("%INDEX%", index);
 		comboTeam = driver.findElement(By.cssSelector(choosenSelector));
 		comboTeam.click();
 	}
+	
+	private String findSprint(String dateOfSprint){
+		String dateSprint = spanSprint.replace("%INDEX%", dateOfSprint);
+		return dateSprint;
+	}
 
-	public void selectTeamPharmacy() {
-		teamPharmacy.click();
+	public void clickSprint(String dateOfSprint){
+		WebElement span = driver.findElement(By.xpath(findSprint(dateOfSprint)));
+		WebElement parentDiv = (WebElement) ((JavascriptExecutor) driver).executeScript("return arguments[0].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;",span);
+		WebElement linkSprint = parentDiv.findElement(By.cssSelector("div.plan a"));
+		linkSprint.click();
+		waitForStatusMessageAppear();
+		waitForStatusMessageHidden();
+		waitContentOfCurrentSprintAppear();
 	}
 
 	private void waitForPlanMenuAppear() {

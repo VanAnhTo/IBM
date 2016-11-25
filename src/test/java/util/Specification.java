@@ -1,6 +1,7 @@
 package util;
 
 import domain.detail.account.LoginDetails;
+import domain.detail.task.DashboardDetail;
 import domain.detail.task.TaskDetail;
 import page.LoginPage;
 import page.ProjectDashBoardPage;
@@ -47,10 +48,10 @@ public class Specification {
 
 	}
 
-	public void chooseTeamKDD() {
+	/*public void chooseTeamKDD() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.selectTeamPharmacy();
-	}
+	}*/
 
 	public void clickCurrentSprint() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
@@ -125,6 +126,11 @@ public class Specification {
 	public void changeStatusToComplete() {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.clickComplete();
+	}
+
+	public void clickSprint(DashboardDetail dashBoardDetail) {
+		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
+		onProjectDashBoardPagee.clickSprint(dashBoardDetail.getSprintDate());
 	}
 
 }

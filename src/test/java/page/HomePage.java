@@ -1,5 +1,6 @@
 package page;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,18 +11,17 @@ public class HomePage {
 	@FindBy(id = "jazz_ui_ResourceLink_0")
 	private WebElement projectLink;
 	
-	public void goToProjectDashboard() {
-		projectLink.click();
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		//waitForDashboardPageAppear();
+	public HomePage(WebDriver driver) {
+		this.driver = driver;
 	}
 	
-	/*private void waitForDashboardPageAppear() {
+	public void goToProjectDashboard() {
+		projectLink.click();
+		waitForDashboardPageAppear();
+	}
+	
+	private void waitForDashboardPageAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
-		wait.presenceOfTheElement(By.id("dijit_InlineEditBox_0"));
-	}*/
+		wait.presenceOfTheElement(By.cssSelector("table.content-table"));
+	}
 }

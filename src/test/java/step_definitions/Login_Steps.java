@@ -8,7 +8,9 @@ import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import domain.builder.account.LoginDetailBuilder;
+import domain.builder.task.DashBoardBuilder;
 import domain.detail.account.LoginDetails;
+import domain.detail.task.DashboardDetail;
 import util.PageStore;
 import util.Specification;
 
@@ -16,11 +18,13 @@ public class Login_Steps {
 	public WebDriver driver;
 
 	LoginDetailBuilder builder;
+	DashBoardBuilder dashBoardBuilder;
 	Specification user;
 	PageStore pageStore;
 
 	public Login_Steps() {
 		this.builder = new LoginDetailBuilder();
+		this.dashBoardBuilder = new DashBoardBuilder();
 		this.driver = Hooks.driver;
 		this.pageStore = new PageStore(driver);
 		this.user = new Specification(pageStore);
@@ -70,13 +74,21 @@ public class Login_Steps {
 		user.chooseTeam();
 	}
 	
-	@And("I choose KDD team")
+	/*@And("I choose KDD team")
 	public void i_choose_team_KDD() {
 		user.chooseTeamKDD();
-	}
+	}*/
 	
-	@And("I click current sprint")
+	/*@And("I click current sprint")
 	public void i_click_current_sprint() {
 		user.clickCurrentSprint();
+	}*/
+	
+	@And("I click the sprint has time \"(.*)\"")
+	public void i_click_sprint(String sprintDate) {
+		dashBoardBuilder.withSprintDate(sprintDate);
+		DashboardDetail dashBoardDetail = dashBoardBuilder.build();
+		user.clickSprint(dashBoardDetail);
 	}
+	
 }

@@ -17,9 +17,8 @@ public class TaskDetailPage {
 	WebDriver driver;
 	private WebElement timeTracking;
 	private String timeDueDate;
-	// private String dayInTimeTracking;
 
-	protected String txtTimeTracking = "table.tptTable.tptTSTable tbody tr td:nth-child(%INDEX%) input";
+	private String txtTimeTracking = "table.tptTable.tptTSTable tbody tr td:nth-child(%INDEX%) input";
 
 	private String elementForDropDown = "div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable";
 	private String elementForDropDownCalendarDueDateHidden = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow.Hidden";
@@ -89,6 +88,7 @@ public class TaskDetailPage {
 		optionStartWorking.click();
 	}
 	
+	//Temporary set status is invalid instead of complete.
 	public void clickComplete(){
 		cbxStatus.click();
 		optionInvalid.click();

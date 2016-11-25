@@ -11,17 +11,16 @@ Background:
     Given I open browser and enter link website "https://qlsxpm.viettel.vn:9443/ccm/web"
     And I fill login form
     	| username  | password |
-		| anhttv14  | Thin@123 |
+		| hoangnl  | 123qwe!@# |
     And I login
-
 
   Scenario Outline: Create work item success
     And I go to project dashboard page 
     And I click plan menu
     And I click to see all plans
-    And I select team area
-    And I choose a team
-    And I click current sprint
+    #And I select team area
+    #And I choose a team
+    And I click the sprint has time "<dateOfSprint>"
     And I click add new work item
     And I click add new task
     And I enter with "<taskName>"
@@ -34,16 +33,16 @@ Background:
     And I choose task group
     And I click to add time entry row
     And I add time tracking with "<workDay>" and "<workHour>"
-    And I click save task
-    And I change status to start working
-    And I save status has changed
-    And I change status to complete
-    And I click save to complete
+    #And I click save task
+    #And I change status to start working
+    #And I save status has changed
+    #And I change status to complete
+    #And I click save to complete
 
     
     Examples: List of values
-      | taskName  		  |timeEstimate |workHour	|workDay |dueDate					|
-      | Verify chức năng hệ thống | 8			| 	8		|	8	 |Nov 25, 2016, 12:00:00 PM	|
+     |dateOfSprint 				 | taskName  		  		|timeEstimate |workHour	|workDay 		|	dueDate			|
+     |Nov 21, 2016 - Nov 25, 2016| Verify chức năng hệ thống | 8		| 	8	|	8	 	|Nov 25, 2016, 12:00:00 PM	|
       
    @wip
    Scenario: Login success to IBM
@@ -73,4 +72,16 @@ Background:
      Examples: List of values
       | taskName  		  |timeEstimate |duedate						|
       | This is task name | 8			|	Nov 21, 2016, 12:00:00 PM	|
+      
+ @wip
+  Scenario Outline: Test click sprint as you want
+    And I go to project dashboard page 
+    And I click plan menu
+    And I click to see all plans
+    And I select team area
+    And I choose a team
+    And I click the sprint has time "<dateOfSprint>"
     
+     Examples: List of values
+      | dateOfSprint  		 |
+      |Oct 31, 2016 - Nov 11, 2016|
