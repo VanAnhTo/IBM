@@ -39,7 +39,7 @@ public class Specification {
 
 	public void selectTeamArea() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
-		onProjectDashBoardPagee.selectTeamArea();
+		onProjectDashBoardPagee.chooseTeamArea();
 	}
 
 	public void chooseTeam() {
@@ -117,7 +117,7 @@ public class Specification {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.clickSaveTask();
 	}
-
+/*
 	public void changeStatusToStartWorking() {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.clickStartWorking();
@@ -126,11 +126,16 @@ public class Specification {
 	public void changeStatusToComplete() {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.clickComplete();
-	}
+	}*/
 
 	public void clickSprint(DashboardDetail dashBoardDetail) {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.clickSprint(dashBoardDetail.getSprintDate());
+	}
+
+	public void enterStatus(TaskDetail taskDetail) {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.chooseStatus(taskDetail.getStatus());
 	}
 
 }

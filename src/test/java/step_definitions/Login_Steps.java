@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
 import domain.builder.account.LoginDetailBuilder;
 import domain.builder.task.DashBoardBuilder;
 import domain.detail.account.LoginDetails;
@@ -49,12 +50,12 @@ public class Login_Steps {
 		user.clickLoginWith(loginDetails);
 	}
 
-	@And("I go to project dashboard page")
+	@Given("I go to project dashboard page")
 	public void i_go_to_projectdashboard() {
 		user.goToProjectDashboard();
 	}
 
-	@And("I click plan menu")
+	@When("I click plan menu")
 	public void i_click_plan_menu() {
 		user.browsePlans();
 	}
@@ -73,22 +74,22 @@ public class Login_Steps {
 	public void i_choose_team() {
 		user.chooseTeam();
 	}
-	
-	/*@And("I choose KDD team")
-	public void i_choose_team_KDD() {
-		user.chooseTeamKDD();
-	}*/
-	
-	/*@And("I click current sprint")
-	public void i_click_current_sprint() {
-		user.clickCurrentSprint();
-	}*/
-	
+
+	/*
+	 * @And("I choose KDD team") public void i_choose_team_KDD() {
+	 * user.chooseTeamKDD(); }
+	 */
+
+	/*
+	 * @And("I click current sprint") public void i_click_current_sprint() {
+	 * user.clickCurrentSprint(); }
+	 */
+
 	@And("I click the sprint has time \"(.*)\"")
 	public void i_click_sprint(String sprintDate) {
 		dashBoardBuilder.withSprintDate(sprintDate);
 		DashboardDetail dashBoardDetail = dashBoardBuilder.build();
 		user.clickSprint(dashBoardDetail);
 	}
-	
+
 }

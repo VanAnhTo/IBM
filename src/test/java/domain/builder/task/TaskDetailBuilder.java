@@ -8,7 +8,8 @@ public class TaskDetailBuilder {
 	private String timeTracking;
 	private String workDay;
 	private String dueDate;
-
+	private String status;
+	
 	public TaskDetailBuilder withTaskName(String taskName) {
 		this.taskName = taskName;
 		return this;
@@ -29,9 +30,14 @@ public class TaskDetailBuilder {
 		this.dueDate = dueDate;
 		return this;
 	}
+	
+	public TaskDetailBuilder withStatus(String status) {
+		this.status = status;
+		return this;
+	}
 
 	public TaskDetail build() {
-		return new TaskDetail(taskName, timeEstimate, timeTracking, workDay, dueDate);
+		return new TaskDetail(taskName, timeEstimate, timeTracking, workDay, dueDate, status);
 	}
 
 }
