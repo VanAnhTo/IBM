@@ -9,6 +9,7 @@ import domain.detail.account.LoginDetails;
 
 public class LoginPage {
 	WebDriver driver;
+	public static String username;
 
 	@FindBy(name = "j_username")
 	private WebElement usernameField;
@@ -26,6 +27,7 @@ public class LoginPage {
 	public void enterUsernameAs(String username) {
 		usernameField.clear();
 		usernameField.sendKeys(username);
+		LoginPage.username = username;
 	}
 
 	public void enterPasswordAs(String password) {

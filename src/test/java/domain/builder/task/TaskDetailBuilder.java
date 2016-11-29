@@ -6,9 +6,11 @@ public class TaskDetailBuilder {
 	private String taskName;
 	private String timeEstimate;
 	private String timeTracking;
-	private String workDay;
+	//private String workDay;
 	private String dueDate;
 	private String status;
+	private String timeCode;
+	private String taskGroup;
 	
 	public TaskDetailBuilder withTaskName(String taskName) {
 		this.taskName = taskName;
@@ -19,10 +21,13 @@ public class TaskDetailBuilder {
 		this.timeEstimate = timeEstimate;
 		return this;
 	}
-
-	public TaskDetailBuilder withTimeTracking(String timeTracking, String dayOfWeek) {
+	/*public TaskDetailBuilder withTimeTracking(String timeTracking, String dayOfWeek) {
 		this.timeTracking = timeTracking;
 		this.workDay = dayOfWeek;
+		return this;
+	}*/
+	public TaskDetailBuilder withTimeTracking(String timeTracking) {
+		this.timeTracking = timeTracking;
 		return this;
 	}
 	
@@ -35,9 +40,18 @@ public class TaskDetailBuilder {
 		this.status = status;
 		return this;
 	}
+	public TaskDetailBuilder withTimeCode(String timeCode) {
+		this.timeCode = timeCode;
+		return this;
+	}
+	
+	public TaskDetailBuilder withTaskGroup(String taskGroup) {
+		this.taskGroup = taskGroup;
+		return this;
+	}
 
 	public TaskDetail build() {
-		return new TaskDetail(taskName, timeEstimate, timeTracking, workDay, dueDate, status);
+		return new TaskDetail(taskName, timeEstimate, timeTracking, dueDate, status, timeCode, taskGroup);
 	}
 
 }

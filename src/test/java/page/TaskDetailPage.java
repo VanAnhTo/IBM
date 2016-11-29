@@ -1,5 +1,7 @@
 package page;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -21,15 +23,23 @@ public class TaskDetailPage extends BasePage {
 	private String formatDueDate = "MMM dd, yyyy";
 	private String formatTimeTracking = "yyyy-MM-dd";
 	private String txtTimeTracking = "table.tptTable.tptTSTable tbody tr td:nth-child(%INDEX%) input";
+	private String ownedBy = "body>div:last-child ul li:nth-child(%INDEX%)";
+
 	private String dropDown = "div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable";
 	private String calendarDueDate = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow%s";
 	private String dateTimeTracking = "td#Timesheet_weekTextBox div.dijitReset.dijitInputField.dijitInputContainer input:nth-child(2)";
 
 	@FindBy(css = ".Column.leftColumn tbody tr:nth-child(8) div.ValueHolder.ViewBorder")
+	private WebElement divOwnedBy;
+
+	@FindBy(css = "body>div:last-child ul li:first-child")
 	private WebElement dropDownOwnedBy;
 
-	@FindBy(css = "body>div:last-child ul li:nth-child(2)")
-	private WebElement ownedBy;
+	/*@FindBy(css = "body>div:last-child ul li:nth-child(2)")
+	private WebElement ownedBy;*/
+
+	@FindBy(css = "body>div:last-child div.SearchBox input")
+	private WebElement txtSearch;
 
 	@FindBy(css = ".EstimateWidget2 .com-ibm-team-apt-web-ui-internal-parts-DurationWidget")
 	private WebElement estimateFeild;
@@ -44,7 +54,10 @@ public class TaskDetailPage extends BasePage {
 	private WebElement btnOkDueDate;
 
 	@FindBy(css = "div.ValueHolder.ViewBorder")
-	private WebElement cbxTaskGroupOnTabTimeTracking;
+	private WebElement divTaskGroup;
+
+	@FindBy(css = "div.SelectOptions ul li:first-child")
+	private WebElement dropDownTaskGroup;
 
 	@FindBy(css = "div.SelectOptions ul li:nth-child(11)")
 	private WebElement taskGroupOnTabTimeTracking;
@@ -70,19 +83,42 @@ public class TaskDetailPage extends BasePage {
 	@FindBy(css = "div.SummaryArea.DynamicHeaderArea div.fieldWrapper")
 	private WebElement divStatus;
 
-	/*@FindBy(css = "div.SummaryArea.DynamicHeaderArea .Select option:nth-child(2)")
-	private WebElement optionStartWorking;
-
-	@FindBy(css = ".workItemEditor div.SummaryArea.DynamicHeaderArea .Select option:nth-child(4)")
-	private WebElement optionInvalid;
-
-	@FindBy(css = ".workItemEditor div.SummaryArea.DynamicHeaderArea .Select option:nth-child(3)")
-	private WebElement optionComplete;*/
-	
 	@FindBy(css = "div.SummaryArea.DynamicHeaderArea .Select")
 	private WebElement cbxStatus;
-	
-	
+
+	@FindBy(css = "table.tptTable.tptTSTable select")
+	private WebElement cbxTimeCode;
+
+	@FindBy(css = "body>div:last-child ul li")
+	private List<WebElement> listDropOwnedBy;
+
+	public void clickOwnedBy() {
+		divOwnedBy.click();
+		waitForDropDownAppear();
+		for (int i = 1; i <= listDropOwnedBy.size(); i++) {
+			String index = Integer.toString(i);
+			String owerdBy = ownedBy.replace("%INDEX%", index);
+			// driver.findElement(By.cssSelector(liOwerdBy));
+			WebElement owner = (driver.findElement(By.cssSelector(owerdBy)))
+					.findElement(By.cssSelector("span:nth-child(3)"));
+			String a = owner.getText();
+			if (a == LoginPage.username) {
+				driver.findElement(By.cssSelector(owerdBy)).click();
+			}
+		}
+	}
+
+	private void searchOwnedBy() {
+		divOwnedBy.click();
+		waitForDropDownAppear();
+		txtSearch.sendKeys(LoginPage.username);
+	}
+
+	private void searchTaskGroup(String taskGroup) {
+		divTaskGroup.click();
+		waitForDropDownAppear();
+		txtSearch.sendKeys(taskGroup);
+	}
 
 	private void waitForDropDownAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
@@ -121,31 +157,17 @@ public class TaskDetailPage extends BasePage {
 		}
 	}
 
-	private void enterTimeTracking(WebElement txtWorkHour, String index, String workHour) {
-		String timeTracking = txtTimeTracking.replace("%INDEX%", index);
-		txtWorkHour = driver.findElement(By.cssSelector(timeTracking));
-		txtWorkHour.clear();
-		txtWorkHour.sendKeys(workHour);
-	}
-	
-	private void enterTimeTrack(WebElement txtWorkHour, String dueDate, String workHour) {
-		int index = (DateTime.getWeekOfDate(dueDate, formatDueDate) + 3);
-		String timeTracking = txtTimeTracking.replace("%INDEX%", String.valueOf(index));
+	private void enterTimeTracking(WebElement txtWorkHour, String workHour) {
+		String dayOfWeek = String.valueOf(DateTime.getDayOfWeek(timeDueDate, formatDueDate) + 2);
+		String timeTracking = txtTimeTracking.replace("%INDEX%", dayOfWeek);
 		txtWorkHour = driver.findElement(By.cssSelector(timeTracking));
 		txtWorkHour.clear();
 		txtWorkHour.sendKeys(workHour);
 	}
 
-/*	public void clickStartWorking() {
-		divStatus.click();
-		optionStartWorking.click();
+	public void enterTimeTracking(String workHour) {
+		this.enterTimeTracking(timeTracking, workHour);
 	}
-
-	// Temporary set status is invalid instead of complete.
-	public void clickComplete() {
-		divStatus.click();
-		optionInvalid.click();
-	}*/
 
 	public void enterDueDateWith(TaskDetail dueDate) {
 		txtDueDate.click();
@@ -154,12 +176,12 @@ public class TaskDetailPage extends BasePage {
 		this.timeDueDate = dueDate.getDueDate().substring(0, 12);
 	}
 
-	public void chooseOwnedBy() {
+	/*public void chooseOwnedBy() {
 		dropDownOwnedBy.click();
 		waitForDropDownAppear();
 		ownedBy.click();
 		waitForDropDownHidden();
-	}
+	}*/
 
 	public void chooseDueDate() {
 		iconCalendarDueDate.click();
@@ -181,20 +203,9 @@ public class TaskDetailPage extends BasePage {
 		tabTimeTracking.click();
 	}
 
-	public void chooseTaskGroup() {
-		cbxTaskGroupOnTabTimeTracking.click();
-		waitForDropDownAppear();
-		taskGroupOnTabTimeTracking.click();
-		waitForDropDownHidden();
-	}
-
 	public void clickToAddTimeEntryRow() {
 		clickPreviousButton();
 		linkTextTimeEntryRow.click();
-	}
-
-	public void enterTimeTracking(String workDate, String workHour) {
-		this.enterTimeTracking(timeTracking, workDate, workHour);
 	}
 
 	public void clickSaveTask() {
@@ -203,9 +214,27 @@ public class TaskDetailPage extends BasePage {
 	}
 
 	public void chooseStatus(String status) {
-		Select temp = new Select(cbxStatus);
-		String st = IbmEnum.Status.valueOf(status).value;
-		temp.selectByValue(st);
+		String statusValue = IbmEnum.Status.valueOf(status).value;
+		Select slectStatus = new Select(cbxStatus);
+		slectStatus.selectByValue(statusValue);
+	}
+
+	public void chooseOwnedBy() {
+		searchOwnedBy();
+		dropDownOwnedBy.click();
+		waitForDropDownHidden();
+	}
+
+	public void chooseTimeCode(String timeCode) {
+		cbxTimeCode.click();
+		Select slectStatus = new Select(cbxTimeCode);
+		slectStatus.selectByVisibleText(timeCode);
+	}
+
+	public void chooseTaskGroup(String taskGroup) {
+		searchTaskGroup(taskGroup);
+		dropDownTaskGroup.click();
+		waitForDropDownHidden();
 	}
 
 }

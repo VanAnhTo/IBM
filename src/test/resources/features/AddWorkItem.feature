@@ -10,7 +10,7 @@ Feature: Create task of a work day
     Given I open browser and enter link website "https://qlsxpm.viettel.vn:9443/ccm/web"
     And I fill login form
       | username | password  |
-      | hoangnl  | 123qwe!@# |
+      | name     | ********* |
     And I login
 
   Scenario Outline: Create work item success
@@ -31,24 +31,21 @@ Feature: Create task of a work day
     And I click owned by
     And I choose due date
     And I click tab time tracking
-    And I choose task group
+    And I choose task group "<taskGroup>"
     And I click to add time entry row
-    And I add time tracking with "<workDay>" and "<workHour>"
-    And I click save task
-    Then I wait for completing task
-    And I change status "START_WORKING"
-    And I save status has changed
-    And I change status "COMPLETE"
+    And I choose time code "<timeCode>"
+    And I add time tracking with "<workHour>"
 
-    #And I click save to complete
+    #And I add time tracking with "<workDay>" and "<workHour>"
     #And I click save task
-    #And I change status to start working
-    #And I save status has changed
-    #And I change status to complete
-    #And I click save to complete
+    #Then I wait for completing task
+    #And I change status "START_WORKING"
+    #And I click save task
+    #And I change status "INVALIDATE"
+    #And I click save task
     Examples: List of values
-      | dateOfSprint                | taskName                  | timeEstimate | workHour | workDay | dueDate                   |
-      | Nov 21, 2016 - Nov 25, 2016 | Verify chức năng hệ thống |            8 |        8 |       8 | Nov 25, 2016, 12:00:00 PM |
+      | dateOfSprint                | taskName | timeEstimate | workHour | dueDate                   | taskGroup | timeCode |
+      | Nov 21, 2016 - Dec 24, 2016 | Test     |            8 |        8 | Nov 29, 2016, 12:00:00 PM | Research  | Document |
 
   @wip
   Scenario: Login success to IBM

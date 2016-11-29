@@ -146,7 +146,7 @@ public class Specification {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.chooseStatus(taskDetail.getStatus());
 	}*/
-	public void chooseStatus(String status) {
+public void chooseStatus(String status) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.chooseStatus(status);
 	}

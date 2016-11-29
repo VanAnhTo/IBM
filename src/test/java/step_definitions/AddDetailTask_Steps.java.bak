@@ -115,7 +115,7 @@ public class AddDetailTask_Steps {
 		user.changeStatusToStartWorking();
 	}*/
 	
-	/*@And("I change status \"(.*)\"")
+	@And("I change status \"(.*)\"")
 	public void i_change_status(String status) {
 		taskBuilder.withStatus(status);
 		TaskDetail taskDetail = taskBuilder.build();
@@ -128,7 +128,7 @@ public class AddDetailTask_Steps {
 		user.clickSaveTask();
 	}
 	
-	@And("I change status to complete")
+	/*@And("I change status to complete")
 	public void i_change_status_to_complete() {
 		user.changeStatusToComplete();
 	}*/
