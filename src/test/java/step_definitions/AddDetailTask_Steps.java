@@ -1,10 +1,13 @@
 package step_definitions;
 
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 
 import cucumber.api.java.en.And;
 import domain.builder.account.LoginDetailBuilder;
 import domain.builder.task.TaskDetailBuilder;
+import domain.detail.task.Task;
 import domain.detail.task.TaskDetail;
 import util.PageStore;
 import util.Specification;
@@ -56,21 +59,13 @@ public class AddDetailTask_Steps {
 		TaskDetail taskDetail = taskBuilder.build();
 		user.enterTimeEstimate(taskDetail);
 	}
-	
-	/*@And("I choose due date")
-	public void i_choose_due_date() {
-		user.chooseDueDate();
-	}*/
+
 	
 	@And("I click tab time tracking")
 	public void i_click_tab_time_tracking() {
 		user.clickTabTimeTracking();
 	}
-	
-	/*@And("I choose task group")
-	public void i_choose_task_gruop() {
-		user.chooseTaskGroup();
-	}*/
+
 
 	@And("I choose task group \"(.*)\"")
 	public void i_choose_task_gruop(String taskGroup) {
@@ -83,13 +78,6 @@ public class AddDetailTask_Steps {
 	public void i_click_to_add_time_entry_row() {
 		user.clickToAddTimeEntryRow();
 	}
-	
-/*	@And("I add time tracking with \"(.*)\" and \"(.*)\"")
-	public void i_add_time_tracking(String workDay, String workHour) {
-		taskBuilder.withTimeTracking(workDay, workHour);
-		TaskDetail taskDetail = taskBuilder.build();
-		user.enterTimeTracking(taskDetail);
-	}*/
 
 	@And("I add time tracking with \"(.*)\"")
 	public void i_add_time_tracking(String workHour) {
@@ -110,29 +98,6 @@ public class AddDetailTask_Steps {
 		user.clickSaveTask();
 	}
 	
-	/*@And("I change status to start working")
-	public void i_change_status_to_start_working() {
-		user.changeStatusToStartWorking();
-	}*/
-	
-	/*@And("I change status \"(.*)\"")
-	public void i_change_status(String status) {
-		taskBuilder.withStatus(status);
-		TaskDetail taskDetail = taskBuilder.build();
-		user.enterStatus(taskDetail);
-	}
-	
-	
-	@And("I save status has changed")
-	public void i_save_status_has_changed() {
-		user.clickSaveTask();
-	}
-	
-	@And("I change status to complete")
-	public void i_change_status_to_complete() {
-		user.changeStatusToComplete();
-	}*/
-	
 	@And("I click save to complete")
 	public void i_click_save_to_complete() {
 		user.clickSaveTask();
@@ -141,13 +106,18 @@ public class AddDetailTask_Steps {
 	public void i_change_Status(String status) {
 		taskBuilder.withStatus(status);
 		TaskDetail taskDetail = taskBuilder.build();
-		user.chooseStatus(taskDetail.getStatus());
+		user.chooseStatus(taskDetail);
 	}	
 
 	@And("I choose time code \"(.*)\"")
 	public void i_choose_time_code(String timeCode) {
 		taskBuilder.withTimeCode(timeCode);
 		TaskDetail taskDetail = taskBuilder.build();
-		user.chooseTimeCode(taskDetail.getTimeCode());
+		user.chooseTimeCode(taskDetail);
+	}
+	
+	@And("I add work item")
+	public void i_add_work_item(List<Task> tasks) {
+		user.addWorkItem(tasks);
 	}
 }

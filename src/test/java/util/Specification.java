@@ -1,7 +1,13 @@
 package util;
 
+import java.util.Iterator;
+import java.util.List;
+
+import domain.builder.task.DashBoardBuilder;
+import domain.builder.task.TaskDetailBuilder;
 import domain.detail.account.LoginDetails;
 import domain.detail.task.DashboardDetail;
+import domain.detail.task.Task;
 import domain.detail.task.TaskDetail;
 import page.LoginPage;
 import page.ProjectDashBoardPage;
@@ -42,17 +48,6 @@ public class Specification {
 		onProjectDashBoardPagee.chooseTeamArea();
 	}
 
-	/*public void chooseTeam() {
-		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
-		onProjectDashBoardPagee.chooseTeam();
-
-	}*/
-
-	/*public void chooseTeamKDD() {
-		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
-		onProjectDashBoardPagee.selectTeamPharmacy();
-	}*/
-
 	public void clickCurrentSprint() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.clickCurrentSprint();
@@ -77,51 +72,34 @@ public class Specification {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.chooseOwnedBy();
 	}
-	
-	/*public void clickOwnedBy() {
-		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.clickOwnedBy();
-	}*/
 
 	public void enterTimeEstimate(TaskDetail taskDetail) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.enterTimeEstimateWith(taskDetail);
 	}
 
-	/*public void chooseDueDate() {
-		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.chooseDueDate();
-	}*/
 
 	public void clickTabTimeTracking() {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.clickTabTimeTracking();
 	}
 
-	/*public void chooseTaskGroup() {
-		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.chooseTaskGroup();
-	}*/
 	public void chooseTaskGroup(TaskDetail taskDetail) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.chooseTaskGroup(taskDetail.getTaskGroup());
 	}
-
 
 	public void clickToAddTimeEntryRow() {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.clickToAddTimeEntryRow();
 	}
 
-	/*public void enterTimeTracking(TaskDetail taskDetail) {
-		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.enterTimeTracking(taskDetail.getWorkDay(), taskDetail.getTimeTracking());
-	}*/
 
 	public void enterTimeTracking(TaskDetail taskDetail) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.enterTimeTracking(taskDetail.getTimeTracking());
 	}
+
 	public void enterDueDate(TaskDetail taskDetail) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.enterDueDateWith(taskDetail);
@@ -131,34 +109,20 @@ public class Specification {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.clickSaveTask();
 	}
-/*
-	public void changeStatusToStartWorking() {
-		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.clickStartWorking();
-	}
-
-	public void changeStatusToComplete() {
-		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.clickComplete();
-	}*/
 
 	public void clickSprint(DashboardDetail dashBoardDetail) {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.clickSprint(dashBoardDetail.getSprintDate());
 	}
 
-	/*public void enterStatus(TaskDetail taskDetail) {
+	public void chooseStatus(TaskDetail taskDetail) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.chooseStatus(taskDetail.getStatus());
-	}*/
-	public void chooseStatus(String status) {
-		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.chooseStatus(status);
 	}
 
-	public void chooseTimeCode(String timeCode) {
+	public void chooseTimeCode(TaskDetail taskDetail) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
-		onTaskDetailPage.chooseTimeCode(timeCode);
+		onTaskDetailPage.chooseTimeCode(taskDetail.getTimeCode());
 	}
 
 	public void chooseCurrentProject(DashboardDetail dashBoardDetail) {
@@ -169,6 +133,47 @@ public class Specification {
 	public void chooseTeam(DashboardDetail dashBoardDetail) {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.chooseTeam(dashBoardDetail.getTeam());
+	}
+
+	public void addWorkItem(List<Task> tasks) {
+		for (Task task : tasks) {
+			
+			TaskDetailBuilder taskBuilder = new TaskDetailBuilder();
+			taskBuilder.withTaskName(task.getTaskName())
+					   .withTimeEstimate(task.getTimeEstimate())
+					   .withDueDate(task.getDueDate())
+					   .withStatus(task.getStatus())
+					   .withTaskGroup(task.getTaskGroup())
+					   .withTimeCode(task.getTimeCode())
+					   .withTimeTracking(task.getTimeTracking());
+			TaskDetail taskDetail = taskBuilder.build();
+			
+			DashBoardBuilder dashBoardBuilder = new DashBoardBuilder();
+			dashBoardBuilder.withTeam(task.getTeam());
+			DashboardDetail dashBoardDetail = dashBoardBuilder.build();
+			
+			this.browsePlans();
+			this.clickAllPlans();
+			this.selectTeamArea();
+			this.chooseTeam(dashBoardDetail);
+			this.clickCurrentSprint();
+			this.clickAddNewWorkItem();
+			this.clickAddNewTask();
+			this.goToDetailTaskPage(taskDetail);
+			this.enterTimeEstimate(taskDetail);
+			this.enterDueDate(taskDetail);
+			this.clickOwnedBy();
+			this.clickTabTimeTracking();
+			this.chooseTaskGroup(taskDetail);
+			this.clickToAddTimeEntryRow();
+			this.chooseTimeCode(taskDetail);
+			this.enterTimeTracking(taskDetail);
+			this.clickSaveTask();
+			this.chooseStatus(taskDetail);
+			this.clickSaveTask();
+			this.chooseStatus(taskDetail);
+			this.clickSaveTask();
+		}
 	}
 
 }
