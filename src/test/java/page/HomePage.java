@@ -7,21 +7,31 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class HomePage {
-	WebDriver driver;
+public class HomePage extends BasePage {
+		
+	private String project = "div.my-projects.section div div.project:nth-child(%INDEX%) h3 a";
 
 	@FindBy(id = "jazz_ui_ResourceLink_0")
 	private WebElement projectLink;
 	
-	@FindBy(id = "div.projects.section div div.project")
+	@FindBy(css = "div.my-projects.section div div.project")
 	private List<WebElement> listProject;
 	
-	public HomePage(WebDriver driver) {
-		this.driver = driver;
+	@FindBy(css = "div.tabArea a:nth-child(2).tab div.title")
+	private WebElement tabOther;
+	
+	
+	public HomePage(WebDriver driver){
+		super(driver);
 	}
 	
 	public void goToProjectDashboard() {
 		projectLink.click();
+		waitForDashboardPageAppear();
+	}
+	
+	public void chooseProject(String curentProject) {	
+		findItem(listProject, project, curentProject);
 		waitForDashboardPageAppear();
 	}
 	

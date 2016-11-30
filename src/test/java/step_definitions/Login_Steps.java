@@ -69,21 +69,18 @@ public class Login_Steps {
 	public void i_select_team_area() {
 		user.selectTeamArea();
 	}
-
+/*
 	@And("I choose a team")
 	public void i_choose_team() {
 		user.chooseTeam();
+	}*/
+
+	@And("I choose team \"(.*)\"")
+	public void i_choose_team(String team) {
+		dashBoardBuilder.withTeam(team);
+		DashboardDetail dashBoardDetail = dashBoardBuilder.build();
+		user.chooseTeam(dashBoardDetail);
 	}
-
-	/*
-	 * @And("I choose KDD team") public void i_choose_team_KDD() {
-	 * user.chooseTeamKDD(); }
-	 */
-
-	/*
-	 * @And("I click current sprint") public void i_click_current_sprint() {
-	 * user.clickCurrentSprint(); }
-	 */
 
 	@And("I click the sprint has time \"(.*)\"")
 	public void i_click_sprint(String sprintDate) {
@@ -91,5 +88,11 @@ public class Login_Steps {
 		DashboardDetail dashBoardDetail = dashBoardBuilder.build();
 		user.clickSprint(dashBoardDetail);
 	}
-
+	
+	@Given("I go to current project \"(.*)\"")
+	public void i_go_to_current_project(String currentProject) {
+		dashBoardBuilder.withCurrentProject(currentProject);
+		DashboardDetail dashBoardDetail = dashBoardBuilder.build();
+		user.chooseCurrentProject(dashBoardDetail);
+	}
 }

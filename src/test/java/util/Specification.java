@@ -42,11 +42,11 @@ public class Specification {
 		onProjectDashBoardPagee.chooseTeamArea();
 	}
 
-	public void chooseTeam() {
+	/*public void chooseTeam() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
 		onProjectDashBoardPagee.chooseTeam();
 
-	}
+	}*/
 
 	/*public void chooseTeamKDD() {
 		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
@@ -159,6 +159,16 @@ public class Specification {
 	public void chooseTimeCode(String timeCode) {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.chooseTimeCode(timeCode);
+	}
+
+	public void chooseCurrentProject(DashboardDetail dashBoardDetail) {
+		HomePage onHomePage = pageStore.get(HomePage.class);
+		onHomePage.chooseProject(dashBoardDetail.getCurrentProject());
+	}
+
+	public void chooseTeam(DashboardDetail dashBoardDetail) {
+		ProjectDashBoardPage onProjectDashBoardPagee = pageStore.get(ProjectDashBoardPage.class);
+		onProjectDashBoardPagee.chooseTeam(dashBoardDetail.getTeam());
 	}
 
 }

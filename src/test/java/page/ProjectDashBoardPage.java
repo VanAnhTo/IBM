@@ -1,6 +1,7 @@
 package page;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -26,6 +27,9 @@ public class ProjectDashBoardPage extends BasePage {
 
 	private String comboSelectTeam = "ul li:nth-child(%INDEX%)";
 	private WebElement comboTeam;
+	
+	private String teamSelected = "div.SelectOptions ul li:nth-child(%INDEX%)";
+	private String childSpan = "span:nth-child(3)";
 
 	@FindBy(id = "jazz_ui_MenuPopup_4")
 	private WebElement plansMenu;
@@ -34,16 +38,30 @@ public class ProjectDashBoardPage extends BasePage {
 	private WebElement allPlans;
 
 	@FindBy(css = "div.ValueHolder.ViewBorder")
-	private WebElement allTeamAreas;
+	private WebElement divTeams;
+
+	@FindBy(css = "div.SelectOptions ul li")
+	private List<WebElement> listTeam;
 
 	@FindBy(css = "div.entry.unselected.children.expanded div.entryChildren div:first-child a")
 	private WebElement currentSprint;
 
-	private void clickSelectTeamFromCombo(WebElement comboTeam, String index) {
+	
+
+	public void chooseTeam(String team) {
+		divTeams.click();
+		waitCompletedProcess();
+		waitForDropdownTeamsAppear();
+		findItem(listTeam, teamSelected, childSpan, team);
+		waitForDropDownTeamsHidden();
+		waitCompletedProcess();
+	}
+
+	/*private void clickSelectTeamFromCombo(WebElement comboTeam, String index) {
 		String choosenSelector = comboSelectTeam.replace("%INDEX%", index);
 		comboTeam = driver.findElement(By.cssSelector(choosenSelector));
 		comboTeam.click();
-	}
+	}*/
 
 	private void waitForPlanMenuAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
@@ -66,7 +84,6 @@ public class ProjectDashBoardPage extends BasePage {
 		WebElement parentDiv = (WebElement) ((JavascriptExecutor) driver).executeScript(divSprintByJs, span);
 		WebElement linkSprint = parentDiv.findElement(By.cssSelector("div.plan a"));
 		new Actions(driver).moveToElement(linkSprint).click().perform();
-		//linkSprint.click();
 		waitCompletedProcess();
 		waitContentOfCurrentSprintAppear();
 	}
@@ -77,22 +94,22 @@ public class ProjectDashBoardPage extends BasePage {
 	}
 
 	public void clickAllPlans() {
-		this.allPlans.click();
+		allPlans.click();
 		waitCompletedProcess();
 		waitForAllPlansAppear();
 	}
 
 	public void chooseTeamArea() {
-		this.allTeamAreas.click();
+		divTeams.click();
 		waitCompletedProcess();
 		waitForDropdownTeamsAppear();
 	}
 
-	public void chooseTeam() {
+	/*public void chooseTeam() {
 		chooseTeamFromCombo(team);
 		waitForDropDownTeamsHidden();
 		waitCompletedProcess();
-	}
+	}*/
 
 	public void clickCurrentSprint() {
 		currentSprint.click();
@@ -100,8 +117,8 @@ public class ProjectDashBoardPage extends BasePage {
 		waitContentOfCurrentSprintAppear();
 	}
 
-	public void chooseTeamFromCombo(String index) {
+	/*public void chooseTeamFromCombo(String index) {
 		clickSelectTeamFromCombo(comboTeam, index);
-	}
+	}*/
 
 }

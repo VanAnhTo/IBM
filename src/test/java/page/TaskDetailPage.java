@@ -24,6 +24,8 @@ public class TaskDetailPage extends BasePage {
 	private String formatTimeTracking = "yyyy-MM-dd";
 	private String txtTimeTracking = "table.tptTable.tptTSTable tbody tr td:nth-child(%INDEX%) input";
 	private String ownedBy = "body>div:last-child ul li:nth-child(%INDEX%)";
+	
+	private String childSpan = "span:nth-child(3)";
 
 	private String dropDown = "div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable";
 	private String calendarDueDate = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow%s";
@@ -221,15 +223,7 @@ public class TaskDetailPage extends BasePage {
 	public void chooseOwnedBy() {
 		divOwnedBy.click();
 		waitForDropDownAppear();
-		for (int i = 1; i <= listDropOwnedBy.size(); i++) {
-			String index = Integer.toString(i);
-			String owerdBy = ownedBy.replace("%INDEX%", index);
-			WebElement owner = (driver.findElement(By.cssSelector(owerdBy))).findElement(By.cssSelector("span:nth-child(3)"));
-			String a = owner.getText();
-			if (a.equals(LoginPage.username)) {
-				driver.findElement(By.cssSelector(owerdBy)).click();
-			}
-		}
+		findItem(listDropOwnedBy, ownedBy, childSpan, LoginPage.username);
 		waitForDropDownHidden();
 	}
 

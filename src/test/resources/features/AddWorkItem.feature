@@ -3,7 +3,6 @@ Feature: Create task of a work day
   I want to create task of a work day
   So that I can create tasks
 
-  #Thu 2 -> Thu 7: workDay number from: 4 -> 9
   #Work time per day: default 8 hour
   #Estimate time for work: default 8 hour
   Background: 
@@ -14,13 +13,13 @@ Feature: Create task of a work day
     And I login
 
   Scenario Outline: Create work item success
-    Given I go to project dashboard page
+    Given I go to current project "<curentProject>"
     When I click plan menu
     And I click to see all plans
-    #And I select team area
-    #And I choose a team
+    And I choose team "<team>"
     #Then I wait for completing task
     And I click the sprint has time "<dateOfSprint>"
+   
     And I click add new work item
     And I click add new task
     And I enter with "<taskName>"
@@ -35,20 +34,19 @@ Feature: Create task of a work day
     And I click to add time entry row
     And I choose time code "<timeCode>"
     And I add time tracking with "<workHour>"
-
-    #And I add time tracking with "<workDay>" and "<workHour>"
-    #And I click save task
-    #Then I wait for completing task
     
     #And I click save task
+    #Then I wait for completing task
     #And I change status "START_WORKING"
     #And I click save task
     #And I change status "INVALIDATE"
     #And I click save task
     
     Examples: List of values
-      | dateOfSprint                | taskName | timeEstimate | workHour | dueDate      			 | taskGroup | timeCode |
-      | Nov 21, 2016 - Dec 24, 2016 | Test     |            8 |        8 | Nov 19, 2016, 12:00:00 PM | Support   | Report   |
+      | curentProject   						|team 									| dateOfSprint                | taskName | timeEstimate | workHour | dueDate      			   | taskGroup | timeCode |
+      |  VTICT_VA_13001_HQMC (Change Management)|VTICT_VA_13001_HQMC (Change Management)| Nov 21, 2016 - Dec 24, 2016 | Test     |            8 |        8 | Nov 19, 2016, 12:00:00 PM | Support   | Report   |
+      |  VTICT_VA_13001_HQMC (Change Management)|VTICT_VA_13001_HQMC (Change Management)| Nov 21, 2016 - Dec 24, 2016 | Test1    |            8 |        8 | Nov 21, 2016, 12:00:00 PM | Code   | Document   |
+      |  VTICT_VA_13001_HQMC (Change Management)|VTICT_VA_13001_HQMC (Change Management)| Nov 21, 2016 - Dec 24, 2016 | Test2    |            8 |        8 | Nov 22, 2016, 12:00:00 PM | Support   | Execute   |
 
   @wip
   Scenario: Login success to IBM
@@ -78,15 +76,14 @@ Feature: Create task of a work day
       | taskName          | timeEstimate | duedate                   |
       | This is task name |            8 | Nov 21, 2016, 12:00:00 PM |
 
+ 
   @wip
   Scenario Outline: Test click sprint as you want
-    And I go to project dashboard page
-    And I click plan menu
+    Given I go to current project "<curentProject>"
+    When I click plan menu
     And I click to see all plans
-    And I select team area
-    And I choose a team
-    And I click the sprint has time "<dateOfSprint>"
+    And I choose team "<team>"
 
-    Examples: List of values
-      | dateOfSprint                |
-      | Oct 31, 2016 - Nov 11, 2016 |
+ Examples: List of values
+      | curentProject   						|team 									|
+      |  VTICT_VA_13001_HQMC (Change Management)|VTICT_VA_13001_HQMC (Change Management)|
