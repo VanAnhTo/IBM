@@ -1,5 +1,9 @@
 package page;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -18,7 +22,7 @@ public class TaskDetailPage extends BasePage {
 		super(driver);
 	}
 
-	private WebElement timeTracking;
+	private List<WebElement> timeTracking;
 	private String timeDueDate;
 	private String formatDueDate = "MMM dd, yyyy";
 	private String formatTimeTracking = "yyyy-MM-dd";
@@ -46,7 +50,7 @@ public class TaskDetailPage extends BasePage {
 	@FindBy(css = ".EstimateWidget2 .com-ibm-team-apt-web-ui-internal-parts-DurationWidget")
 	private WebElement estimateFeild;
 
-	@FindBy(css = "input.input")
+	@FindBy(css = "div.EstimateWidget2 input.input")
 	private WebElement txtEstimate;
 
 	@FindBy(css = "div.DatePicker a:nth-child(3)")
@@ -55,20 +59,26 @@ public class TaskDetailPage extends BasePage {
 	@FindBy(css = "div.com-ibm-team-workitem-web-ui-internal-view-mvvm-views-DateTimePopup.Shadow div a.OkButton")
 	private WebElement btnOkDueDate;
 
-	@FindBy(css = "div.ValueHolder.ViewBorder")
+	@FindBy(css = "div.SectionContent div.ValueHolder.ViewBorder")
 	private WebElement divTaskGroup;
+	
+	@FindBy(css = "div.SectionContent div.ValueHolder.ViewBorder")
+	private List<WebElement> listDivTaskGroup;
 
-	@FindBy(css = "div.SelectOptions ul li:first-child")
+	@FindBy(css = "body>div:last-child div.SelectOptions ul li:first-child")
 	private WebElement dropDownTaskGroup;
 
 	@FindBy(css = "div.SelectOptions ul li:nth-child(11)")
 	private WebElement taskGroupOnTabTimeTracking;
 
-	@FindBy(css = "div.TabArea a:nth-child(5)")
+	@FindBy(css = "div.com-ibm-team-workitem div.com-ibm-team-workitem div:last-child div:last-child a:nth-child(5)")
 	private WebElement tabTimeTracking;
 
 	@FindBy(css = "span#Timecode_addButton span a span:nth-child(2)")
 	private WebElement linkTextTimeEntryRow;
+	
+	@FindBy(css = "span#Timecode_addButton span a span:nth-child(2)")
+	private List<WebElement> listLinkTextTimeEntryRow;
 
 	@FindBy(css = "div.DatePicker input.dateInput.ViewBorder")
 	private WebElement txtDueDate;
@@ -78,15 +88,24 @@ public class TaskDetailPage extends BasePage {
 
 	@FindBy(css = "td#Timesheet_previous_button a")
 	private WebElement btnPrevious;
+	
+	@FindBy(css = "td#Timesheet_previous_button a")
+	private List<WebElement> listBtnPrevious;
 
-	@FindBy(css = "span.CommandArea button.primary-button")
+	@FindBy(css = "div.com-ibm-team-workitem div.com-ibm-team-workitem div:last-child div:last-child div.Header1stRow button.primary-button")
 	private WebElement btnSave;
 
 	@FindBy(css = "div.SummaryArea.DynamicHeaderArea div.fieldWrapper")
 	private WebElement divStatus;
+	
+	@FindBy(css = "div.SummaryArea.DynamicHeaderArea div.fieldWrapper")
+	private List<WebElement> listDivStatus;
 
 	@FindBy(css = "div.SummaryArea.DynamicHeaderArea .Select")
 	private WebElement cbxStatus;
+	
+	@FindBy(css = "div.SummaryArea.DynamicHeaderArea .Select")
+	private List<WebElement> listCbxStatus;
 
 	@FindBy(css = "table.tptTable.tptTSTable select")
 	private WebElement cbxTimeCode;
@@ -95,13 +114,52 @@ public class TaskDetailPage extends BasePage {
 	private List<WebElement> listDropOwnedBy;
 
 	private void searchTaskGroup(String taskGroup) {
-		divTaskGroup.click();
+		//divTaskGroup.click();
+		clickDivTaskGroup();
 		waitForDropDownAppear();
 		txtSearch.sendKeys(taskGroup);
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+	
+
+	private void clickLinkTextTimeEntryRow(){
+		for (int i = 0; i < listLinkTextTimeEntryRow.size(); i++) {
+			if(listLinkTextTimeEntryRow.get(i).isDisplayed() == true){
+				listLinkTextTimeEntryRow.get(i).click();
+				break;
+			}
+		}
+	}
+	
+	private void clickBtnPrevious(){
+		for (int i = 0; i < listBtnPrevious.size(); i++) {
+			if(listBtnPrevious.get(i).isDisplayed() == true){
+				listBtnPrevious.get(i).click();
+				break;
+			}
+		}
+	}
+	
+	private WebElement getCbxStatus(){
+		WebElement element = null;
+		for (int i = 0; i < listCbxStatus.size(); i++) {
+			if(listCbxStatus.get(i).isDisplayed() == true){
+				element = listCbxStatus.get(i);
+			}
+		}
+		return element;
+	}
+	
+	private void clickDivTaskGroup(){
+		for (int i = 0; i < listDivTaskGroup.size(); i++) {
+			if(listDivTaskGroup.get(i).isDisplayed() == true){
+				listDivTaskGroup.get(i).click();
+				break;
+			}
 		}
 	}
 
@@ -137,27 +195,33 @@ public class TaskDetailPage extends BasePage {
 		int weekOfTimeTracking = DateTime.getWeekOfDate(getDateInTimeTracking(), formatTimeTracking);
 		if (weekOfTimeTracking > weekOfDueDate) {
 			for (int i = 0; i < weekOfTimeTracking - weekOfDueDate; i++) {
-				btnPrevious.click();
+				//btnPrevious.click();
+				clickBtnPrevious();
 			}
 		}
 	}
 
-	private void enterTimeTracking(WebElement txtWorkHour, String workHour) {
+	private void enterTimeTracking(List<WebElement> txtWorkHour, String workHour) {
 		String dayOfWeek = String.valueOf(DateTime.getDayOfWeek(timeDueDate, formatDueDate) + 2);
 		String timeTracking = txtTimeTracking.replace("%INDEX%", dayOfWeek);
-		txtWorkHour = driver.findElement(By.cssSelector(timeTracking));
-		txtWorkHour.clear();
-		txtWorkHour.sendKeys(workHour);
+		txtWorkHour = driver.findElements(By.cssSelector(timeTracking));
+		for (int i = 0; i < txtWorkHour.size(); i++) {
+			if(txtWorkHour.get(i).isDisplayed() == true){
+				txtWorkHour.get(i).clear();
+				txtWorkHour.get(i).sendKeys(workHour);
+			}
+		}
+		
 	}
 
 	public void enterTimeTracking(String workHour) {
 		this.enterTimeTracking(timeTracking, workHour);
 	}
-
+	
 	public void enterDueDateWith(TaskDetail dueDate) {
 		txtDueDate.click();
 		txtDueDate.clear();
-		txtDueDate.sendKeys(dueDate.getDueDate());
+		txtDueDate.sendKeys(dueDate.getDueDate()+", 12:00:00 PM");
 		this.timeDueDate = dueDate.getDueDate().substring(0, 12);
 	}
 
@@ -190,7 +254,8 @@ public class TaskDetailPage extends BasePage {
 
 	public void clickToAddTimeEntryRow() {
 		clickPreviousButton();
-		linkTextTimeEntryRow.click();
+		//linkTextTimeEntryRow.click();
+		clickLinkTextTimeEntryRow();
 	}
 
 	public void clickSaveTask() {
@@ -200,7 +265,7 @@ public class TaskDetailPage extends BasePage {
 
 	public void chooseStatus(String status) {
 		String statusValue = IbmEnum.Status.valueOf(status).value;
-		Select selectStatus = new Select(cbxStatus);
+		Select selectStatus = new Select(getCbxStatus());
 		selectStatus.selectByValue(statusValue);
 	}
 
@@ -230,8 +295,8 @@ public class TaskDetailPage extends BasePage {
 
 	public void chooseTimeCode(String timeCode) {
 		cbxTimeCode.click();
-		Select slectStatus = new Select(cbxTimeCode);
-		slectStatus.selectByVisibleText(timeCode);
+		Select sl = new Select(cbxTimeCode);
+		sl.selectByVisibleText(timeCode);
 	}
 
 	public void chooseTaskGroup(String taskGroup) {

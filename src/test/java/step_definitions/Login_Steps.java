@@ -54,7 +54,7 @@ public class Login_Steps {
 	public void i_go_to_projectdashboard() {
 		user.goToProjectDashboard();
 	}
-
+/*
 	@When("I click plan menu")
 	public void i_click_plan_menu() {
 		user.browsePlans();
@@ -63,17 +63,24 @@ public class Login_Steps {
 	@And("I click to see all plans")
 	public void i_see_all_plans() {
 		user.clickAllPlans();
-	}
+	}*/
+	
+	
 
-	@And("I select team area")
+	/*@And("I select team area")
 	public void i_select_team_area() {
 		user.selectTeamArea();
-	}
+	}*/
 /*
 	@And("I choose a team")
 	public void i_choose_team() {
 		user.chooseTeam();
 	}*/
+	
+	@When("I click all plan")
+	public void i_click_plan_menu() {
+		user.clickPlan();
+	}
 
 	@And("I choose team \"(.*)\"")
 	public void i_choose_team(String team) {

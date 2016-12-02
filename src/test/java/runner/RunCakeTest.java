@@ -8,7 +8,7 @@ import cucumber.api.junit.Cucumber;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/features/AddWorkItem.feature",
 glue = {"step_definitions"},
-tags = {"~@wip"},
+tags = {"~@wip", "~@done"},
 format = {
 		"pretty", "html:target/cucumber", "json:target/cucumber-report.json" })
 public class RunCakeTest {

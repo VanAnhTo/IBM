@@ -51,16 +51,9 @@ public class BasePage {
 			}
 			if (childText.equals(input)) {
 				driver.findElement(By.cssSelector(tempParent)).click();
+				break;
 			}
 		}
 	}
 
-	/*
-	 * protected void findItem(List<WebElement> listItem, String parentCss,
-	 * String input) { for (int i = 1; i <= listItem.size(); i++) { String
-	 * tempParent = parentCss.replace("%INDEX%", Integer.toString(i));
-	 * WebElement parent = driver.findElement(By.cssSelector(tempParent));
-	 * String childText = parent.getText(); if (childText.equals(input)) {
-	 * driver.findElement(By.cssSelector(tempParent)).click(); } } }
-	 */
 }

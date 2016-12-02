@@ -6,11 +6,13 @@ public class TaskDetailBuilder {
 	private String taskName;
 	private String timeEstimate;
 	private String timeTracking;
-	//private String workDay;
 	private String dueDate;
-	private String status;
+	private String statusBefore;
 	private String timeCode;
 	private String taskGroup;
+	private String status;
+	
+	private String statusAfter;
 	
 	public TaskDetailBuilder withTaskName(String taskName) {
 		this.taskName = taskName;
@@ -36,10 +38,16 @@ public class TaskDetailBuilder {
 		return this;
 	}
 	
-	public TaskDetailBuilder withStatus(String status) {
-		this.status = status;
+	public TaskDetailBuilder withStatusBefore(String statusBefore) {
+		this.statusBefore = statusBefore;
 		return this;
 	}
+	
+	public TaskDetailBuilder withStatusAfter(String statusAfter) {
+		this.statusAfter = statusAfter;
+		return this;
+	}
+	
 	public TaskDetailBuilder withTimeCode(String timeCode) {
 		this.timeCode = timeCode;
 		return this;
@@ -49,9 +57,14 @@ public class TaskDetailBuilder {
 		this.taskGroup = taskGroup;
 		return this;
 	}
+	
+	public TaskDetailBuilder withStatus(String status) {
+		this.status = status;
+		return this;
+	}
 
 	public TaskDetail build() {
-		return new TaskDetail(taskName, timeEstimate, timeTracking, dueDate, status, timeCode, taskGroup);
+		return new TaskDetail(taskName, timeEstimate, timeTracking, dueDate, statusBefore, timeCode, taskGroup, statusAfter, status);
 	}
 
 }

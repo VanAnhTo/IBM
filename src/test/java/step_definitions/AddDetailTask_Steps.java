@@ -1,5 +1,6 @@
 package step_definitions;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
@@ -79,6 +80,7 @@ public class AddDetailTask_Steps {
 		user.clickToAddTimeEntryRow();
 	}
 
+
 	@And("I add time tracking with \"(.*)\"")
 	public void i_add_time_tracking(String workHour) {
 		taskBuilder.withTimeTracking(workHour);
@@ -86,25 +88,34 @@ public class AddDetailTask_Steps {
 		user.enterTimeTracking(taskDetail);
 	}
 	
-	@And("I enter due date \"(.*)\"")
+	/*@And("I enter due date \"(.*)\"")
 	public void i_add_due_date(String dueDate) {
 		taskBuilder.withDueDate(dueDate);
 		TaskDetail taskDetail = taskBuilder.build();
 		user.enterDueDate(taskDetail);
-	}	
+	}	*/
+	
+	@And("I enter due date \"(.*)\"")
+	public void i_add_due_date(String dueDate) throws ParseException {
+		taskBuilder.withDueDate(dueDate);
+		TaskDetail taskDetail = taskBuilder.build();
+		user.enterDueDate(taskDetail);
+	}
 	
 	@And("I click save task")
 	public void i_click_save_task() {
 		user.clickSaveTask();
 	}
+
 	
 	@And("I click save to complete")
 	public void i_click_save_to_complete() {
 		user.clickSaveTask();
 	}
+	
 	@And("I change status \"(.*)\"")
 	public void i_change_Status(String status) {
-		taskBuilder.withStatus(status);
+		taskBuilder.withStatusBefore(status);
 		TaskDetail taskDetail = taskBuilder.build();
 		user.chooseStatus(taskDetail);
 	}	
@@ -117,7 +128,7 @@ public class AddDetailTask_Steps {
 	}
 	
 	@And("I add work item")
-	public void i_add_work_item(List<Task> tasks) {
+	public void i_add_work_item(List<Task> tasks) throws ParseException {
 		user.addWorkItem(tasks);
-	}
+}
 }

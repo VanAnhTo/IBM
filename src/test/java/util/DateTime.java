@@ -42,7 +42,7 @@ public class DateTime {
 		}
 		return weekOfDate;
 	}
-	
+
 	public static int getDayOfWeek(String content, String format) {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		int dayOfWeek = 0;
@@ -56,4 +56,5 @@ public class DateTime {
 		}
 		return dayOfWeek;
 	}
+
 }

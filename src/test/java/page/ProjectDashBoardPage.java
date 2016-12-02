@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -28,16 +29,19 @@ public class ProjectDashBoardPage extends BasePage {
 	private String comboSelectTeam = "ul li:nth-child(%INDEX%)";
 	private WebElement comboTeam;
 	
-	private String teamSelected = "div.SelectOptions ul li:nth-child(%INDEX%)";
+	private String teamSelected = "body>div:last-child div.SelectOptions ul li:nth-child(%INDEX%)";
 	private String childSpan = "span:nth-child(3)";
 
 	@FindBy(id = "jazz_ui_MenuPopup_4")
 	private WebElement plansMenu;
 
-	@FindBy(id = "jazz_ui_menu_MenuItem_3_text")
-	private WebElement allPlans;
+	/*@FindBy(id = "jazz_ui_menu_MenuItem_3_text")
+	private WebElement allPlans;*/
 
-	@FindBy(css = "div.ValueHolder.ViewBorder")
+	@FindBy(css = "#jazz_ui_Menu_0 tbody tr:nth-child(5) a.itemHref")
+	private WebElement allPlans;
+	
+	@FindBy(css = "div.pagination-container div.ValueHolder.ViewBorder")
 	private WebElement divTeams;
 
 	@FindBy(css = "div.SelectOptions ul li")
@@ -46,16 +50,15 @@ public class ProjectDashBoardPage extends BasePage {
 	@FindBy(css = "div.entry.unselected.children.expanded div.entryChildren div:first-child a")
 	private WebElement currentSprint;
 
-	
-
-	public void chooseTeam(String team) {
-		divTeams.click();
-		waitCompletedProcess();
-		waitForDropdownTeamsAppear();
-		findItem(listTeam, teamSelected, childSpan, team);
-		waitForDropDownTeamsHidden();
-		waitCompletedProcess();
+	public void reload(){
+		//driver.navigate().refresh();
+		Actions actionObject = new Actions(driver);
+		actionObject.keyDown(Keys.CONTROL).sendKeys(Keys.F5).keyUp(Keys.CONTROL).perform();
+		//actionObject.keyDown(Keys.CONTROL).sendKeys(Keys.F5).perform();
+		waitForDashboardPageAppear();
+		//driver.manage().deleteAllCookies();
 	}
+	
 
 	/*private void clickSelectTeamFromCombo(WebElement comboTeam, String index) {
 		String choosenSelector = comboSelectTeam.replace("%INDEX%", index);
@@ -77,6 +80,11 @@ public class ProjectDashBoardPage extends BasePage {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.hiddenOfTheElement(By.cssSelector(comboTeamList));
 	}
+	
+	private void waitForDashboardPageAppear() {
+		util.WaitFor wait = new util.WaitFor(driver);
+		wait.presenceOfTheElement(By.cssSelector("table.content-table"));
+	}
 
 	public void clickSprint(String dateOfSprint) {
 		String date = spanSprint.replace("%DATE%", dateOfSprint);
@@ -88,37 +96,45 @@ public class ProjectDashBoardPage extends BasePage {
 		waitContentOfCurrentSprintAppear();
 	}
 
-	public void clickPlansMenu() {
+	/*public void clickPlansMenu() {
 		plansMenu.click();
 		waitForPlanMenuAppear();
+	}*/
+	
+	public void clickPlan() {
+		plansMenu.click();
+		waitForPlanMenuAppear() ;
+		new Actions(driver).moveToElement(allPlans).click().perform();
+		waitCompletedProcess();
+		waitForAllPlansAppear();
 	}
-
+	
+/*
 	public void clickAllPlans() {
 		allPlans.click();
 		waitCompletedProcess();
 		waitForAllPlansAppear();
-	}
-
-	public void chooseTeamArea() {
+	}*/
+	
+	public void chooseTeam(String team) {
 		divTeams.click();
 		waitCompletedProcess();
 		waitForDropdownTeamsAppear();
-	}
-
-	/*public void chooseTeam() {
-		chooseTeamFromCombo(team);
+		findItem(listTeam, teamSelected, childSpan, team);
 		waitForDropDownTeamsHidden();
 		waitCompletedProcess();
+	}
+
+	/*public void chooseTeamArea() {
+		divTeams.click();
+		waitCompletedProcess();
+		waitForDropdownTeamsAppear();
 	}*/
 
-	public void clickCurrentSprint() {
+	/*public void clickCurrentSprint() {
 		currentSprint.click();
 		waitCompletedProcess();
 		waitContentOfCurrentSprintAppear();
-	}
-
-	/*public void chooseTeamFromCombo(String index) {
-		clickSelectTeamFromCombo(comboTeam, index);
 	}*/
 
 }
