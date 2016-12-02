@@ -108,6 +108,11 @@ public class Specification {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
 		onTaskDetailPage.enterDueDateWith(taskDetail);
 	}
+	
+	public void enterDueDateWith(TaskDetail taskDetail) {
+		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
+		onTaskDetailPage.enterDueDate(taskDetail);
+	}
 
 	public void clickSaveTask() {
 		TaskDetailPage onTaskDetailPage = pageStore.get(TaskDetailPage.class);
@@ -180,7 +185,8 @@ public class Specification {
 			this.clickAddNewTask();
 			this.goToDetailTaskPage(taskDetail);
 			this.enterTimeEstimate(taskDetail);
-			this.enterDueDate(taskDetail);
+			//this.enterDueDate(taskDetail);
+			this.enterDueDateWith(taskDetail);
 			this.clickOwnedBy();
 			this.clickTabTimeTracking();
 			this.chooseTaskGroup(taskDetail);

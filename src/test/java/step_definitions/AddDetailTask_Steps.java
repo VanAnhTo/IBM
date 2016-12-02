@@ -89,17 +89,18 @@ public class AddDetailTask_Steps {
 	}
 	
 	/*@And("I enter due date \"(.*)\"")
-	public void i_add_due_date(String dueDate) {
+	public void i_add_due_date(String dueDate){
 		taskBuilder.withDueDate(dueDate);
 		TaskDetail taskDetail = taskBuilder.build();
 		user.enterDueDate(taskDetail);
-	}	*/
+	}*/
 	
+	//Test convert
 	@And("I enter due date \"(.*)\"")
-	public void i_add_due_date(String dueDate) throws ParseException {
+	public void i_add_due_date_with(String dueDate){
 		taskBuilder.withDueDate(dueDate);
 		TaskDetail taskDetail = taskBuilder.build();
-		user.enterDueDate(taskDetail);
+		user.enterDueDateWith(taskDetail);
 	}
 	
 	@And("I click save task")

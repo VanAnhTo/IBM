@@ -1,11 +1,18 @@
 package util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateTime {
+	
+	public static String dateToString (Date date){
+		 DateFormat df = new SimpleDateFormat("MMM dd, yyyy");
+		 String reportDate = df.format(date);
+		 return reportDate;
+	}
 
 	public static Date convertToDate(String content, String format) {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
