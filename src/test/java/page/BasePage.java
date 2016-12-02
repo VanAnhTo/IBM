@@ -55,5 +55,24 @@ public class BasePage {
 			}
 		}
 	}
+	
+	protected void clickElementIsDisplay(List<WebElement> listElement) {
+		for (int i = 0; i < listElement.size(); i++) {
+			if (listElement.get(i).isDisplayed() == true) {
+				listElement.get(i).click();
+				break;
+			}
+		}
+	}
+	
+	protected WebElement getElementIsDIsplay(List<WebElement> listElement) {
+		WebElement element = null;
+		for (int i = 0; i < listElement.size(); i++) {
+			if (listElement.get(i).isDisplayed() == true) {
+				element = listElement.get(i);
+			}
+		}
+		return element;
+	}
 
 }

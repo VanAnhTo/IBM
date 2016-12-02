@@ -1,9 +1,7 @@
 package page;
 
-import java.text.DateFormat;
+
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -117,7 +115,8 @@ public class TaskDetailPage extends BasePage {
 
 	private void searchTaskGroup(String taskGroup) {
 		// divTaskGroup.click();
-		clickDivTaskGroup();
+		//clickDivTaskGroup();
+		clickElementIsDisplay(listDivTaskGroup);
 		waitForDropDownAppear();
 		txtSearch.sendKeys(taskGroup);
 		try {
@@ -127,43 +126,19 @@ public class TaskDetailPage extends BasePage {
 		}
 	}
 
-	private void clickLinkTextTimeEntryRow() {
-		for (int i = 0; i < listLinkTextTimeEntryRow.size(); i++) {
-			if (listLinkTextTimeEntryRow.get(i).isDisplayed() == true) {
-				listLinkTextTimeEntryRow.get(i).click();
-				break;
-			}
-		}
+	/*private void clickLinkTextTimeEntryRow() {
+		clickElementIsDisplay(listLinkTextTimeEntryRow);
 	}
-
 	private void clickBtnPrevious() {
-		for (int i = 0; i < listBtnPrevious.size(); i++) {
-			if (listBtnPrevious.get(i).isDisplayed() == true) {
-				listBtnPrevious.get(i).click();
-				break;
-			}
-		}
+		clickElementIsDisplay(listBtnPrevious);
 	}
-
-	private WebElement getCbxStatus() {
-		WebElement element = null;
-		for (int i = 0; i < listCbxStatus.size(); i++) {
-			if (listCbxStatus.get(i).isDisplayed() == true) {
-				element = listCbxStatus.get(i);
-			}
-		}
-		return element;
-	}
-
 	private void clickDivTaskGroup() {
-		for (int i = 0; i < listDivTaskGroup.size(); i++) {
-			if (listDivTaskGroup.get(i).isDisplayed() == true) {
-				listDivTaskGroup.get(i).click();
-				break;
-			}
-		}
+		clickElementIsDisplay(listDivTaskGroup);
 	}
-
+	private WebElement getCbxStatus() {
+		return getElementIsDIsplay(listCbxStatus);
+	}*/
+	
 	private void waitForDropDownAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector(dropDown));
@@ -197,7 +172,8 @@ public class TaskDetailPage extends BasePage {
 		if (weekOfTimeTracking > weekOfDueDate) {
 			for (int i = 0; i < weekOfTimeTracking - weekOfDueDate; i++) {
 				// btnPrevious.click();
-				clickBtnPrevious();
+				//clickBtnPrevious();
+				clickElementIsDisplay(listBtnPrevious);
 			}
 		}
 	}
@@ -267,7 +243,8 @@ public class TaskDetailPage extends BasePage {
 	public void clickToAddTimeEntryRow() {
 		clickPreviousButton();
 		// linkTextTimeEntryRow.click();
-		clickLinkTextTimeEntryRow();
+		//clickLinkTextTimeEntryRow();
+		clickElementIsDisplay(listLinkTextTimeEntryRow);
 	}
 
 	public void clickSaveTask() {
@@ -277,7 +254,7 @@ public class TaskDetailPage extends BasePage {
 
 	public void chooseStatus(String status) {
 		String statusValue = IbmEnum.Status.valueOf(status).value;
-		Select selectStatus = new Select(getCbxStatus());
+		Select selectStatus = new Select(getElementIsDIsplay(listCbxStatus));
 		selectStatus.selectByValue(statusValue);
 	}
 
