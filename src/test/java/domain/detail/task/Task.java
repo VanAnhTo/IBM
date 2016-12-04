@@ -11,9 +11,12 @@ public class Task {
 	private String statusAfter;
 	private String timeCode;
 	private String taskGroup;
+	private String team;
 	private String sprintDate;
 	private String currentProject;
-	private String team;
+	
+	
+	public Task(){}
 
 	public Task(String taskName, String timeEstimate, String timeTracking, String dueDate, String status,
 			String timeCode, String taskGroup, String sprintDate, String currentProject, String team, String statusAfter) {
