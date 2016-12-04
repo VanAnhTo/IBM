@@ -39,11 +39,6 @@ public class TaskDetailPage extends BasePage {
 	@FindBy(css = "body>div:last-child ul li:first-child")
 	private WebElement dropDownOwnedBy;
 
-	/*
-	 * @FindBy(css = "body>div:last-child ul li:nth-child(2)") private
-	 * WebElement ownedBy;
-	 */
-
 	@FindBy(css = "body>div:last-child div.SearchBox input")
 	private WebElement txtSearch;
 
@@ -114,8 +109,6 @@ public class TaskDetailPage extends BasePage {
 	private List<WebElement> listDropOwnedBy;
 
 	private void searchTaskGroup(String taskGroup) {
-		// divTaskGroup.click();
-		//clickDivTaskGroup();
 		clickElementIsDisplay(listDivTaskGroup);
 		waitForDropDownAppear();
 		txtSearch.sendKeys(taskGroup);
@@ -125,19 +118,6 @@ public class TaskDetailPage extends BasePage {
 			e.printStackTrace();
 		}
 	}
-
-	/*private void clickLinkTextTimeEntryRow() {
-		clickElementIsDisplay(listLinkTextTimeEntryRow);
-	}
-	private void clickBtnPrevious() {
-		clickElementIsDisplay(listBtnPrevious);
-	}
-	private void clickDivTaskGroup() {
-		clickElementIsDisplay(listDivTaskGroup);
-	}
-	private WebElement getCbxStatus() {
-		return getElementIsDIsplay(listCbxStatus);
-	}*/
 	
 	private void waitForDropDownAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
@@ -171,8 +151,6 @@ public class TaskDetailPage extends BasePage {
 		int weekOfTimeTracking = DateTime.getWeekOfDate(getDateInTimeTracking(), formatTimeTracking);
 		if (weekOfTimeTracking > weekOfDueDate) {
 			for (int i = 0; i < weekOfTimeTracking - weekOfDueDate; i++) {
-				// btnPrevious.click();
-				//clickBtnPrevious();
 				clickElementIsDisplay(listBtnPrevious);
 			}
 		}
@@ -206,7 +184,7 @@ public class TaskDetailPage extends BasePage {
 		txtDueDate.click();
 		txtDueDate.clear();
 		try {
-			String date = DateTime.dateToString(DateTime.convertToDate(dueDate.getDueDate()));
+			String date = DateTime.convertDateToString(DateTime.convertToDate(dueDate.getDueDate(),formatDueDate),formatDueDate);
 			txtDueDate.sendKeys(date + ", 12:00:00 PM");
 			this.timeDueDate = dueDate.getDueDate();
 		} catch (ParseException e) {
@@ -214,11 +192,6 @@ public class TaskDetailPage extends BasePage {
 		}
 
 	}
-
-	/*
-	 * public void chooseOwnedBy() { dropDownOwnedBy.click();
-	 * waitForDropDownAppear(); ownedBy.click(); waitForDropDownHidden(); }
-	 */
 
 	public void chooseDueDate() {
 		iconCalendarDueDate.click();
@@ -242,8 +215,6 @@ public class TaskDetailPage extends BasePage {
 
 	public void clickToAddTimeEntryRow() {
 		clickPreviousButton();
-		// linkTextTimeEntryRow.click();
-		//clickLinkTextTimeEntryRow();
 		clickElementIsDisplay(listLinkTextTimeEntryRow);
 	}
 
@@ -257,14 +228,6 @@ public class TaskDetailPage extends BasePage {
 		Select selectStatus = new Select(getElementIsDIsplay(listCbxStatus));
 		selectStatus.selectByValue(statusValue);
 	}
-
-	/*
-	 * private void searchOwnedBy() { divOwnedBy.click();
-	 * waitForDropDownAppear(); txtSearch.sendKeys(LoginPage.username); try {
-	 * Thread.sleep(500); } catch (InterruptedException e) {
-	 * e.printStackTrace(); } } public void clickOwnedBy() { searchOwnedBy();
-	 * dropDownOwnedBy.click(); waitForDropDownHidden(); }
-	 */
 
 	public void chooseOwnedBy() {
 		divOwnedBy.click();

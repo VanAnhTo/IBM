@@ -34,8 +34,7 @@ public class BasePage {
 	}
 
 	protected void waitContentOfCurrentSprintAppear() {
-		util.WaitFor wait = new util.WaitFor(driver);
-		wait.presenceOfTheElement(By.cssSelector("div.root.children.expanded"));
+		new util.WaitFor(driver).presenceOfTheElement(By.cssSelector("div.root.children.expanded"));
 	}
 
 	protected void findItem(List<WebElement> listItem, String parentCss, String childCss, String input) {
@@ -57,9 +56,15 @@ public class BasePage {
 	}
 	
 	protected void clickElementIsDisplay(List<WebElement> listElement) {
-		for (int i = 0; i < listElement.size(); i++) {
-			if (listElement.get(i).isDisplayed() == true) {
+		/*for (int i = 0; i < listElement.size(); i++) {
+			if (listElement.get(i).isDisplayed()) {
 				listElement.get(i).click();
+				break;
+			}
+		}*/
+		for (WebElement webElement : listElement) {
+			if (webElement.isDisplayed()) {
+				webElement.click();
 				break;
 			}
 		}
@@ -68,7 +73,7 @@ public class BasePage {
 	protected WebElement getElementIsDIsplay(List<WebElement> listElement) {
 		WebElement element = null;
 		for (int i = 0; i < listElement.size(); i++) {
-			if (listElement.get(i).isDisplayed() == true) {
+			if (listElement.get(i).isDisplayed()) {
 				element = listElement.get(i);
 			}
 		}

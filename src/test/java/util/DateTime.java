@@ -8,30 +8,19 @@ import java.util.Date;
 
 public class DateTime {
 	
-	public static String dateToString (Date date){
-		 DateFormat df = new SimpleDateFormat("MMM dd, yyyy");
+	public static String convertDateToString (Date date, String format){
+		 DateFormat df = new SimpleDateFormat(format);
 		 String reportDate = df.format(date);
 		 return reportDate;
 	}
 
-	public static Date convertToDate(String content, String format) {
+	public static Date convertToDate(String content, String format) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);
 		try {
 			Date result = formatter.parse(content);
 			return result;
 		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public static Date convertToDate(String content) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
-		try {
-			Date result = formatter.parse(content);
-			return result;
-		} catch (ParseException e) {
-			formatter = new SimpleDateFormat("dd-mm-yyyyy");
+			formatter = new SimpleDateFormat(format);
 			return formatter.parse(content);
 		}
 	}
