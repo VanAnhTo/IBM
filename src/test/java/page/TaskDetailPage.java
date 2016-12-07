@@ -22,7 +22,10 @@ public class TaskDetailPage extends BasePage {
 
 	private List<WebElement> timeTracking;
 	private String timeDueDate;
-	private String formatDueDate = "MMM dd, yyyy";
+	private String formatDueDateOutput = "MMM dd, yyyy";
+	
+	private String formatDueDateInput = "dd/MM/yyyy";
+	
 	private String formatTimeTracking = "yyyy-MM-dd";
 	private String txtTimeTracking = "table.tptTable.tptTSTable tbody tr td:nth-child(%INDEX%) input";
 	private String ownedBy = "body>div:last-child ul li:nth-child(%INDEX%)";
@@ -109,6 +112,8 @@ public class TaskDetailPage extends BasePage {
 	private List<WebElement> listDropOwnedBy;
 
 	private void searchTaskGroup(String taskGroup) {
+		// divTaskGroup.click();
+		//clickDivTaskGroup();
 		clickElementIsDisplay(listDivTaskGroup);
 		waitForDropDownAppear();
 		txtSearch.sendKeys(taskGroup);
@@ -147,17 +152,19 @@ public class TaskDetailPage extends BasePage {
 	}
 
 	private void clickPreviousButton() {
-		int weekOfDueDate = DateTime.getWeekOfDate(timeDueDate, formatDueDate);
+		int weekOfDueDate = DateTime.getWeekOfDate(timeDueDate, formatDueDateInput);
 		int weekOfTimeTracking = DateTime.getWeekOfDate(getDateInTimeTracking(), formatTimeTracking);
 		if (weekOfTimeTracking > weekOfDueDate) {
 			for (int i = 0; i < weekOfTimeTracking - weekOfDueDate; i++) {
+				// btnPrevious.click();
+				//clickBtnPrevious();
 				clickElementIsDisplay(listBtnPrevious);
 			}
 		}
 	}
 
 	private void enterTimeTracking(List<WebElement> txtWorkHour, String workHour) {
-		String dayOfWeek = String.valueOf(DateTime.getDayOfWeek(timeDueDate, formatDueDate) + 2);
+		String dayOfWeek = String.valueOf(DateTime.getDayOfWeek(timeDueDate, formatDueDateInput) + 2);
 		String timeTracking = txtTimeTracking.replace("%INDEX%", dayOfWeek);
 		txtWorkHour = driver.findElements(By.cssSelector(timeTracking));
 		for (int i = 0; i < txtWorkHour.size(); i++) {
@@ -179,19 +186,15 @@ public class TaskDetailPage extends BasePage {
 		txtDueDate.sendKeys(dueDate.getDueDate() + ", 12:00:00 PM");
 		this.timeDueDate = dueDate.getDueDate().substring(0, 12);
 	}
-
-	public void enterDueDate(TaskDetail dueDate) {
+	
+	public void enterDueDate(String dueDate) {
 		txtDueDate.click();
 		txtDueDate.clear();
-		try {
-			String date = DateTime.convertDateToString(DateTime.convertToDate(dueDate.getDueDate(),formatDueDate),formatDueDate);
-			txtDueDate.sendKeys(date + ", 12:00:00 PM");
-			this.timeDueDate = dueDate.getDueDate();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
+		String date = DateTime.convertToString(DateTime.convertToDate(dueDate, formatDueDateInput), formatDueDateOutput);
+		txtDueDate.sendKeys(date + ", 12:00:00 PM");
+		this.timeDueDate = dueDate;
 	}
+
 
 	public void chooseDueDate() {
 		iconCalendarDueDate.click();
@@ -215,6 +218,8 @@ public class TaskDetailPage extends BasePage {
 
 	public void clickToAddTimeEntryRow() {
 		clickPreviousButton();
+		// linkTextTimeEntryRow.click();
+		//clickLinkTextTimeEntryRow();
 		clickElementIsDisplay(listLinkTextTimeEntryRow);
 	}
 

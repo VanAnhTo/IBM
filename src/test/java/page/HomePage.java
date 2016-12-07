@@ -25,9 +25,6 @@ public class HomePage extends BasePage {
 		super(driver);
 	}
 	
-	
-
-	
 	public void goToProjectDashboard() {
 		projectLink.click();
 		waitForDashboardPageAppear();

@@ -11,18 +11,20 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
+import util.PropertiesStore;
+
 public class ProjectDashBoardPage extends BasePage {
 
 	public ProjectDashBoardPage(WebDriver driver) throws IOException {
 		super(driver);
 	}
 
+
 	private String spanSprint = "//span[contains(text(), \'%DATE%\')]";
 	private String divSprintByJs = "return arguments[0].parentNode.parentNode.parentNode.parentNode.parentNode.parentNode;";
 	private String menuPlan = "#jazz_ui_MenuPopup_4_dropdown";
 	private String comboTeamList = "div.com-ibm-team-workitem-web-ui-internal-view-editor-mvvm-views-QueryableComboView-DropDown.ViewBorder.PopUp.Filterable";
 
-	
 	private String teamSelected = "body>div:last-child div.SelectOptions ul li:nth-child(%INDEX%)";
 	private String childSpan = "span:nth-child(3)";
 
@@ -42,13 +44,11 @@ public class ProjectDashBoardPage extends BasePage {
 	private WebElement currentSprint;
 
 	public void reload(){
-		//driver.navigate().refresh();
 		Actions actionObject = new Actions(driver);
 		actionObject.keyDown(Keys.CONTROL).sendKeys(Keys.F5).keyUp(Keys.CONTROL).perform();
 		waitForDashboardPageAppear();
 	}
 	
-
 	private void waitForPlanMenuAppear() {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector(menuPlan));
@@ -68,17 +68,20 @@ public class ProjectDashBoardPage extends BasePage {
 		util.WaitFor wait = new util.WaitFor(driver);
 		wait.presenceOfTheElement(By.cssSelector("table.content-table"));
 	}
-
+	
 	public void clickSprint(String dateOfSprint) {
 		String date = spanSprint.replace("%DATE%", dateOfSprint);
 		WebElement span = driver.findElement(By.xpath(date));
 		WebElement parentDiv = (WebElement) ((JavascriptExecutor) driver).executeScript(divSprintByJs, span);
 		WebElement linkSprint = parentDiv.findElement(By.cssSelector("div.plan a"));
-		new Actions(driver).moveToElement(linkSprint).click().perform();
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", linkSprint);
+		Actions ac =  new Actions(driver).moveToElement(linkSprint);
+		ac.click().perform();
+		
 		waitCompletedProcess();
 		waitContentOfCurrentSprintAppear();
 	}
-	
+
 	public void clickPlan() {
 		plansMenu.click();
 		waitForPlanMenuAppear() ;
@@ -86,6 +89,7 @@ public class ProjectDashBoardPage extends BasePage {
 		waitCompletedProcess();
 		waitForAllPlansAppear();
 	}
+
 	
 	public void chooseTeam(String team) {
 		divTeams.click();
@@ -95,5 +99,6 @@ public class ProjectDashBoardPage extends BasePage {
 		waitForDropDownTeamsHidden();
 		waitCompletedProcess();
 	}
+
 
 }

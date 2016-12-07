@@ -11,12 +11,9 @@ public class Task {
 	private String statusAfter;
 	private String timeCode;
 	private String taskGroup;
-	private String team;
 	private String sprintDate;
 	private String currentProject;
-	
-	
-	public Task(){}
+	private String team;
 
 	public Task(String taskName, String timeEstimate, String timeTracking, String dueDate, String status,
 			String timeCode, String taskGroup, String sprintDate, String currentProject, String team, String statusAfter) {
@@ -31,6 +28,10 @@ public class Task {
 		this.sprintDate = sprintDate;
 		this.currentProject = currentProject;
 		this.team = team;
+	}
+	
+	public Task(){
+		
 	}
 
 	public void setTaskName(String taskName) {
