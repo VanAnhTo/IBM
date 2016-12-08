@@ -7,6 +7,9 @@ import java.util.List;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.openqa.selenium.JavascriptExecutor;
 
+import Interface.ExcelDatasource;
+import Interface.ExternalDatasource;
+import Interface.XmlDatasource;
 import domain.builder.task.DashBoardBuilder;
 import domain.builder.task.TaskDetailBuilder;
 import domain.detail.account.LoginDetails;
@@ -23,8 +26,11 @@ public class Specification {
 
 	PageStore pageStore;
 
+	private ExternalDatasource _source;
+	
 	public Specification(PageStore pageStore) {
 		this.pageStore = pageStore;
+		_source = new XmlDatasource();
 	}
 
 	public void clickLoginWith(LoginDetails loginDetails) {
@@ -139,111 +145,51 @@ public class Specification {
 
 	public void addWorkItem(List<Task> tasks) throws ParseException {
 		for (Task task : tasks) {
-			TaskDetailBuilder taskBuilder = new TaskDetailBuilder();
-			taskBuilder.withTaskName(task.getTaskName()).withTimeEstimate(task.getTimeEstimate())
-					.withDueDate(task.getDueDate()).withStatusBefore(task.getStatusBefore())
-					.withTaskGroup(task.getTaskGroup()).withTimeCode(task.getTimeCode())
-					.withTimeTracking(task.getTimeTracking()).withStatusAfter(task.getStatusAfter());
-			TaskDetail taskDetail = taskBuilder.build();
-
 			DashBoardBuilder dashBoardBuilder = new DashBoardBuilder();
 			dashBoardBuilder.withTeam(task.getTeam()).withSprintDate(task.getSprintDate());
 			DashboardDetail dashBoardDetail = dashBoardBuilder.build();
-
-			// this.browsePlans();
-			// this.clickAllPlans();
-			this.clickPlan();
-			this.chooseTeam(dashBoardDetail);
-			this.clickSprint(dashBoardDetail);
-			this.clickAddNewWorkItem();
-			this.clickAddNewTask();
-			this.goToDetailTaskPage(taskDetail);
-			this.enterTimeEstimate(taskDetail);
-			this.enterDueDate(taskDetail);
-			this.clickOwnedBy();
-			this.clickTabTimeTracking();
-			this.chooseTaskGroup(taskDetail);
-			this.clickToAddTimeEntryRow();
-			this.chooseTimeCode(taskDetail);
-			this.enterTimeTracking(taskDetail);
-			this.clickSaveTask();
-			this.chooseStatusBefore(taskDetail);
-			this.clickSaveTask();
-			this.chooseStatusAfter(taskDetail);
-			this.clickSaveTask();
-			reloadPage();
+			addWorkTaskSteps(dashBoardDetail, task);
 		}
 
 	}
 
 	public void uploadExel() throws Exception {
-		XSSFSheet taskSheet = ExcelCommon_POI.setExcelFile("task.xlsx", "task");
-		int startRowTask = taskSheet.getFirstRowNum() + 5;
-		int endRowTask = taskSheet.getLastRowNum();
-
-		int rowDashboard = 2;
-		int columDashboard = 1;
-
-		Task task;
-		DashboardDetail dashBoardDetail;
-
-		List<Task> listTask = new ArrayList<Task>();
-
-		for (int indexR = startRowTask; indexR <= endRowTask; indexR++) {
-			task = new Task();
-			int startColum = 1;
-			task.setTaskName(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			task.setTimeEstimate(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			task.setDueDate(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			task.setTaskGroup(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			task.setTimeCode(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			task.setTimeTracking(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			task.setStatusBefore(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			task.setStatusAfter(ExcelCommon_POI.getCellData(indexR, startColum++, taskSheet));
-			listTask.add(task);
-		}
-
-		dashBoardDetail = new DashboardDetail();
-		dashBoardDetail.setTeam(ExcelCommon_POI.getCellData(rowDashboard, columDashboard++, taskSheet));
-		dashBoardDetail.setSprintDate(ExcelCommon_POI.getCellData(rowDashboard, columDashboard++, taskSheet));
-
-		DashBoardBuilder dashBoardBuilder = new DashBoardBuilder();
-		dashBoardBuilder.withTeam(dashBoardDetail.getTeam()).withSprintDate(dashBoardDetail.getSprintDate());
-		dashBoardBuilder.build();
-
+		DashboardDetail dashBoardDetail = _source.readDashboardDetailFromExternalDatasource();
+		List<Task> listTask = _source.readTaskListFromExternalDatasource();
 		for (int indexR = 1; indexR < listTask.size(); indexR++) {
-
-			task = listTask.get(indexR);
-
-			TaskDetailBuilder taskBuilder = new TaskDetailBuilder();
-			taskBuilder.withTaskName(task.getTaskName()).withTimeEstimate(task.getTimeEstimate())
-					.withDueDate(task.getDueDate()).withStatusBefore(task.getStatusBefore())
-					.withTaskGroup(task.getTaskGroup()).withTimeCode(task.getTimeCode())
-					.withTimeTracking(task.getTimeTracking()).withStatusAfter(task.getStatusAfter());
-			TaskDetail taskDetail = taskBuilder.build() ;
-
-			this.clickPlan();
-			this.chooseTeam(dashBoardDetail);
-			this.clickSprint(dashBoardDetail);
-			this.clickAddNewWorkItem();
-			this.clickAddNewTask();
-			this.goToDetailTaskPage(taskDetail);
-			this.enterTimeEstimate(taskDetail);
-			this.enterDueDate(taskDetail);
-			this.clickOwnedBy();
-			this.clickTabTimeTracking();
-			this.chooseTaskGroup(taskDetail);
-			this.clickToAddTimeEntryRow();
-			this.chooseTimeCode(taskDetail);
-			this.enterTimeTracking(taskDetail);
-			this.clickSaveTask();
-			this.chooseStatusBefore(taskDetail);
-			this.clickSaveTask();
-			this.chooseStatusAfter(taskDetail);
-			this.clickSaveTask();
-			this.reloadPage();
+			addWorkTaskSteps(dashBoardDetail, listTask.get(indexR));
 
 		}
+	}
+
+	private void addWorkTaskSteps(DashboardDetail dashBoardDetail, Task task) {
+		TaskDetailBuilder taskBuilder = new TaskDetailBuilder();
+		taskBuilder.withTaskName(task.getTaskName()).withTimeEstimate(task.getTimeEstimate())
+				.withDueDate(task.getDueDate()).withStatusBefore(task.getStatusBefore())
+				.withTaskGroup(task.getTaskGroup()).withTimeCode(task.getTimeCode())
+				.withTimeTracking(task.getTimeTracking()).withStatusAfter(task.getStatusAfter());
+		TaskDetail taskDetail = taskBuilder.build();
+
+		this.clickPlan();
+		this.chooseTeam(dashBoardDetail);
+		this.clickSprint(dashBoardDetail);
+		this.clickAddNewWorkItem();
+		this.clickAddNewTask();
+		this.goToDetailTaskPage(taskDetail);
+		this.enterTimeEstimate(taskDetail);
+		this.enterDueDate(taskDetail);
+		this.clickOwnedBy();
+		this.clickTabTimeTracking();
+		this.chooseTaskGroup(taskDetail);
+		this.clickToAddTimeEntryRow();
+		this.chooseTimeCode(taskDetail);
+		this.enterTimeTracking(taskDetail);
+		this.clickSaveTask();
+		this.chooseStatusBefore(taskDetail);
+		this.clickSaveTask();
+		this.chooseStatusAfter(taskDetail);
+		this.clickSaveTask();
+		this.reloadPage();
 	}
 
 }
