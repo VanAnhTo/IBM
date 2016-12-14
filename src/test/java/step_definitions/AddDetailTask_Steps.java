@@ -131,4 +131,9 @@ public class AddDetailTask_Steps {
 	public void i_up_load_excel() throws Exception {
 		user.uploadExel();
 	}
+	
+	@And("I upload xml file")
+	public void i_up_load_xml_file() throws Exception {
+		user.uploadXmlFile();
+	}
 }
