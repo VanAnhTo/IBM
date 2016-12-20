@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<workitem>
+	<teams>
+		<team>
+			<teamName>VTICT_VA_13001_HQMC (Change Management)</teamName>
+			<sprints>
+				<sprint>
+					<sprintName>Nov 21, 2016 - Dec 24, 2016</sprintName>
+					<tasks>
+						<task>
+							<taskname>Fixbug datatype khi tiến hành chuyển đổi CSDL</taskname>
+							<timeestimate>0</timeestimate>
+							<duedate>03/12/2016</duedate>
+							<taskgroup>Code</taskgroup>
+							<timecode>Execute</timecode>
+							<timetracking>0</timetracking>
+							<statusbefore>START_WORKING</statusbefore>
+							<statusafter>INVALIDATE</statusafter>	
+						</task>
+						<task>
+							<taskname>Fixbug datatype khi tiến hành chuyển đổi CSDL 1</taskname>
+							<timeestimate>0</timeestimate>
+							<duedate>03/12/2016</duedate>
+							<taskgroup>Code</taskgroup>
+							<timecode>Execute</timecode>
+							<timetracking>0</timetracking>
+							<statusbefore>START_WORKING</statusbefore>
+							<statusafter>INVALIDATE</statusafter>	
+						</task>
+					</tasks>
+				</sprint>				
+			</sprints>
+		</team>
+		
+	</teams>
+</workitem>

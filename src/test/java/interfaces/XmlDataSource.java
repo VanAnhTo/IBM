@@ -15,12 +15,14 @@ import org.w3c.dom.NodeList;
 import domain.detail.task.DashboardDetail;
 import domain.detail.task.Task;
 
-public class xmlDataSource implements externalDataSource {
+public class XmlDataSource implements ExternalDataSource {
 
 	@Override
 	public DashboardDetail readDashboardDetailFromExternalDatasource() throws Exception {
+
 		DashboardDetail dashBoardDetail = new DashboardDetail();
-		File fXmlFile = new File("D:/xml data/data.xml");
+
+		File fXmlFile = new File("src/test/resources/data/data.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
@@ -28,8 +30,7 @@ public class xmlDataSource implements externalDataSource {
 
 		NodeList nList = doc.getElementsByTagName("team");
 		for (int temp = 0; temp < nList.getLength(); temp++) {
-
-			Node nTeamNode = nList.item(temp);
+			Node nTeamNode = nList.item(0);
 			if (nTeamNode.getNodeType() == Node.ELEMENT_NODE) {
 
 				Element eElement = (Element) nTeamNode;
@@ -40,11 +41,12 @@ public class xmlDataSource implements externalDataSource {
 					Node nSprintNode = nSprintList.item(i);
 					if (nSprintNode.getNodeType() == Node.ELEMENT_NODE) {
 						Element eTeamElement = (Element) nSprintNode;
-						dashBoardDetail.setSprintDate(
-								eTeamElement.getElementsByTagName("sprintName").item(0).getTextContent());
+						dashBoardDetail.setSprintDate(eTeamElement.getElementsByTagName("sprintName").item(0).getTextContent());
 					}
 				}
+
 			}
+
 		}
 		return dashBoardDetail;
 	}
@@ -54,20 +56,18 @@ public class xmlDataSource implements externalDataSource {
 
 		List<Task> listTask = new ArrayList<Task>();
 
-		File fXmlFile = new File("D:/xml data/data.xml");
+		File fXmlFile = new File("src/test/resources/data/data.xml");
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		Document doc = dBuilder.parse(fXmlFile);
 		doc.getDocumentElement().normalize();
 
-		Task task = new Task();
 		NodeList nTaskList = doc.getElementsByTagName("task");
 		for (int j = 0; j < nTaskList.getLength(); j++) {
-
+			Task task = new Task();
 			Node nTaskNode = nTaskList.item(j);
 			if (nTaskNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eTaskElement = (Element) nTaskNode;
-
 				task.setTaskName(eTaskElement.getElementsByTagName("taskname").item(0).getTextContent());
 				task.setTimeEstimate(eTaskElement.getElementsByTagName("timeestimate").item(0).getTextContent());
 				task.setDueDate(eTaskElement.getElementsByTagName("duedate").item(0).getTextContent());
@@ -78,8 +78,9 @@ public class xmlDataSource implements externalDataSource {
 				task.setStatusAfter(eTaskElement.getElementsByTagName("statusafter").item(0).getTextContent());
 
 				listTask.add(task);
-			} 
-		} 
+			}
+		}
 		return listTask;
 	}
+
 }

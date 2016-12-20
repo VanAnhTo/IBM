@@ -1,7 +1,6 @@
 package page;
 
 
-import java.text.ParseException;
 import java.util.List;
 
 import org.openqa.selenium.By;

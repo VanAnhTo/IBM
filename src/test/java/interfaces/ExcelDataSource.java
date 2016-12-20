@@ -1,4 +1,4 @@
-package Interface;
+package interfaces;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +9,14 @@ import domain.detail.task.DashboardDetail;
 import domain.detail.task.Task;
 import util.ExcelCommon_POI;
 
-public class ExcelDatasource implements ExternalDatasource {
+public class ExcelDataSource implements ExternalDataSource {
 
 	@Override
 	public DashboardDetail readDashboardDetailFromExternalDatasource() throws Exception {
 		DashboardDetail dashBoardDetail = new DashboardDetail();
-		XSSFSheet taskSheet = ExcelCommon_POI.setExcelFile("task.xlsx", "task");
-		int rowDashboard = 3;
-		int columDashboard = 2;
+		XSSFSheet taskSheet = ExcelCommon_POI.setExcelFile("src/test/resources/data/task.xlsx", "task");
+		int rowDashboard = 2;
+		int columDashboard = 1;
 		dashBoardDetail.setTeam(ExcelCommon_POI.getCellData(rowDashboard, columDashboard++, taskSheet));
 		dashBoardDetail.setSprintDate(ExcelCommon_POI.getCellData(rowDashboard, columDashboard++, taskSheet));
 		return dashBoardDetail;
@@ -24,7 +24,7 @@ public class ExcelDatasource implements ExternalDatasource {
 
 	@Override
 	public List<Task> readTaskListFromExternalDatasource() throws Exception {
-		XSSFSheet taskSheet = ExcelCommon_POI.setExcelFile("task.xlsx", "task");
+		XSSFSheet taskSheet = ExcelCommon_POI.setExcelFile("src/test/resources/data/task.xlsx", "task");
 		int startRowTask = taskSheet.getFirstRowNum() + 5;
 		int endRowTask = taskSheet.getLastRowNum();
 
@@ -45,5 +45,4 @@ public class ExcelDatasource implements ExternalDatasource {
 		}
 		return listTask;
 	}
-
 }

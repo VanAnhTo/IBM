@@ -56,55 +56,8 @@ Feature: Create task of a work day
       | VTICT_VA_13001_HQMC (Change Management) |  Nov 21, 2016 - Dec 24, 2016 | Nâng cấp tính năng thủ tục Kiểm dịch thực vật    |    		 0 	|        0 		| 21/11/2016 	| Code      | Document |START_WORKING|INVALIDATE|
       | VTICT_VA_13001_HQMC (Change Management) |  Nov 21, 2016 - Dec 24, 2016 | Cài đặt môi trường phát triển thủ tục Kiểm dịch thực vật |   0 |        0 		| 22/11/2016 	| Support   | Execute  |START_WORKING|INVALIDATE|
   
-  @done
+
   Scenario: Create work item success with upload excel
     Given I go to current project "VTICT_VA_13001_HQMC (Change Management)"
-    And I upload excel
-  
-   Scenario: Create work item success with upload xml file
-    Given I go to current project "VTICT_VA_13001_HQMC (Change Management)"
-    And I upload xml file
-  
-  
-  
-  
-  
-  @wip
-  Scenario: Login success to IBM
-    And I login
-    And I go to project dashboard page
-    And I click plan menu
-    And I click to see all plans
-    And I select team area
-    And I choose KDD team
+    And I upload data source
 
-  @wip
-  Scenario Outline: Creat work item success
-    And I go to project dashboard page
-    And I click plan menu
-    And I click to see all plans
-    And I select team area
-    And I choose a team
-    And I click current sprint
-    And I click add new work item
-    And I click add new task
-    And I enter with "<taskName>"
-    And I go to detail task page
-    And I enter time estimate "<timeEstimate>"
-    And I enter due date "<duedate>"
-
-    Examples: List of values
-      | taskName          | timeEstimate | duedate                   |
-      | This is task name |            8 | Nov 21, 2016, 12:00:00 PM |
-
- 
-  @wip
-  Scenario Outline: Test click sprint as you want
-    Given I go to current project "<curentProject>"
-    When I click plan menu
-    And I click to see all plans
-    And I choose team "<team>"
-
- Examples: List of values
-      | curentProject   						|team 									|
-      |  VTICT_VA_13001_HQMC (Change Management)|VTICT_VA_13001_HQMC (Change Management)|

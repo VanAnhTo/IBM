@@ -1,11 +1,8 @@
 package util;
 
+import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.openqa.selenium.JavascriptExecutor;
 
 import domain.builder.task.DashBoardBuilder;
 import domain.builder.task.TaskDetailBuilder;
@@ -13,25 +10,26 @@ import domain.detail.account.LoginDetails;
 import domain.detail.task.DashboardDetail;
 import domain.detail.task.Task;
 import domain.detail.task.TaskDetail;
-import interfaces.excelDataSource;
-import interfaces.externalDataSource;
-import interfaces.xmlDataSource;
+import interfaces.ExternalDataSource;
+import page.CurrentSprintPage;
+import page.HomePage;
 import page.LoginPage;
 import page.ProjectDashBoardPage;
 import page.TaskDetailPage;
-import page.CurrentSprintPage;
-import page.HomePage;
 
 public class Specification {
 
 	PageStore pageStore;
-	private externalDataSource _source;
-	private externalDataSource _xmlSource;
+	private ExternalDataSource _source;
 
 	public Specification(PageStore pageStore) {
 		this.pageStore = pageStore;
-		_source = new excelDataSource();
-		_xmlSource = new xmlDataSource();
+		try {
+			_source = DataSourceFactory.createDataSource();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void clickLoginWith(LoginDetails loginDetails) {
@@ -150,24 +148,14 @@ public class Specification {
 			dashBoardBuilder.withTeam(task.getTeam()).withSprintDate(task.getSprintDate());
 			DashboardDetail dashBoardDetail = dashBoardBuilder.build();
 			addWorkItemSteps(task, dashBoardDetail);
-
 		}
 
 	}
 
-	public void uploadExel() throws Exception {
+	public void uploadDataSource() throws Exception {
 		DashboardDetail dashBoardDetail = _source.readDashboardDetailFromExternalDatasource();
 		List<Task> listTask = _source.readTaskListFromExternalDatasource();
 		System.out.println("A");
-		for (int indexR = 1; indexR < listTask.size(); indexR++) {
-			addWorkItemSteps(listTask.get(indexR), dashBoardDetail);
-		}
-	}
-	
-	public void uploadXmlFile() throws Exception {
-		List<Task> listTask = _xmlSource.readTaskListFromExternalDatasource();
-		DashboardDetail dashBoardDetail =  _xmlSource.readDashboardDetailFromExternalDatasource();
-		
 		for (int indexR = 1; indexR < listTask.size(); indexR++) {
 			addWorkItemSteps(listTask.get(indexR), dashBoardDetail);
 		}
@@ -179,7 +167,7 @@ public class Specification {
 				.withDueDate(task.getDueDate()).withStatusBefore(task.getStatusBefore())
 				.withTaskGroup(task.getTaskGroup()).withTimeCode(task.getTimeCode())
 				.withTimeTracking(task.getTimeTracking()).withStatusAfter(task.getStatusAfter());
-		TaskDetail taskDetail = taskBuilder.build() ;
+		TaskDetail taskDetail = taskBuilder.build();
 
 		this.clickPlan();
 		this.chooseTeam(dashBoardDetail);

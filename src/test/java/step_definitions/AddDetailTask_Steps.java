@@ -85,12 +85,6 @@ public class AddDetailTask_Steps {
 		user.enterTimeTracking(taskDetail);
 	}
 
-	/*
-	 * @And("I enter due date \"(.*)\"") public void i_add_due_date(String
-	 * dueDate) { taskBuilder.withDueDate(dueDate); TaskDetail taskDetail =
-	 * taskBuilder.build(); user.enterDueDate(taskDetail); }
-	 */
-
 	@And("I enter due date \"(.*)\"")
 	public void i_add_due_date(String dueDate) throws ParseException {
 		taskBuilder.withDueDate(dueDate);
@@ -127,13 +121,9 @@ public class AddDetailTask_Steps {
 		user.addWorkItem(tasks);
 	}
 
-	@And("I upload excel")
+	@And("I upload data source")
 	public void i_up_load_excel() throws Exception {
-		user.uploadExel();
+		user.uploadDataSource();
 	}
-	
-	@And("I upload xml file")
-	public void i_up_load_xml_file() throws Exception {
-		user.uploadXmlFile();
-	}
+
 }

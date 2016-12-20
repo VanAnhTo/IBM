@@ -8,8 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
-import com.sun.jna.platform.unix.X11.Window;
-
 import domain.detail.task.TaskDetail;
 
 public class CurrentSprintPage extends BasePage {
