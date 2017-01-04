@@ -1,0 +1,47 @@
+<teams>
+	<team>
+		<teamName>VTICT_VA_13001_HQMC (Change Management)</teamName>
+		<sprints>
+			<sprint>
+				<sprintName>Nov 21, 2016 - Dec 24, 2016</sprintName>
+				<tasks>
+					<task>
+						<taskname>Fixbug datatype khi tiến hành chuyển đổi CSDL 2</taskname>
+						<timeestimate>0</timeestimate>
+						<duedate>04/12/2016</duedate>
+						<taskgroup>Code</taskgroup>
+						<timecode>Execute</timecode>
+						<timetracking>0</timetracking>
+						<statusbefore>START_WORKING</statusbefore>
+						<statusafter>INVALIDATE</statusafter>	
+					</task>
+				</tasks>
+			</sprint>
+			<sprint>
+				<sprintName>Oct 24, 2016 - Nov 25, 2016</sprintName>
+				<tasks>
+					<task>
+						<taskname>Fixbug datatype khi tiến hành chuyển đổi CSDL 3</taskname>
+						<timeestimate>0</timeestimate>
+						<duedate>03/12/2016</duedate>
+						<taskgroup>Code</taskgroup>
+						<timecode>Execute</timecode>
+						<timetracking>0</timetracking>
+						<statusbefore>START_WORKING</statusbefore>
+						<statusafter>INVALIDATE</statusafter>	
+					</task>
+					<task>
+						<taskname>Fixbug datatype khi tiến hành chuyển đổi CSDL 4</taskname>
+						<timeestimate>0</timeestimate>
+						<duedate>04/12/2016</duedate>
+						<taskgroup>Code</taskgroup>
+						<timecode>Execute</timecode>
+						<timetracking>0</timetracking>
+						<statusbefore>START_WORKING</statusbefore>
+						<statusafter>INVALIDATE</statusafter>	
+					</task>
+				</tasks>
+			</sprint>
+		</sprints>
+	</team>
+</teams>

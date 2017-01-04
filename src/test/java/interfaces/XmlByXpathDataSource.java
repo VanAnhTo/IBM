@@ -95,4 +95,10 @@ public class XmlByXpathDataSource implements ExternalDataSource {
 		}
 	}
 
+	@Override
+	public List<DashboardDetail> readListDashboardDetailFromExternalDatasource() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

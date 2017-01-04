@@ -14,6 +14,8 @@ public class Task {
 	private String sprintDate;
 	private String currentProject;
 	private String team;
+	private String sprintId;
+	private String taskId;
 
 	public Task(String taskName, String timeEstimate, String timeTracking, String dueDate, String status,
 			String timeCode, String taskGroup, String sprintDate, String currentProject, String team, String statusAfter) {
@@ -32,6 +34,22 @@ public class Task {
 	
 	public Task(){
 		
+	}
+
+	public String getSprintId() {
+		return sprintId;
+	}
+
+	public void setSprintId(String sprintId) {
+		this.sprintId = sprintId;
+	}
+
+	public String getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(String taskId) {
+		this.taskId = taskId;
 	}
 
 	public void setTaskName(String taskName) {

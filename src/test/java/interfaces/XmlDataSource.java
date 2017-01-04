@@ -83,4 +83,10 @@ public class XmlDataSource implements ExternalDataSource {
 		return listTask;
 	}
 
+	@Override
+	public List<DashboardDetail> readListDashboardDetailFromExternalDatasource() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

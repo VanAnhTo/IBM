@@ -59,7 +59,7 @@ public class Hooks {
 			}
 
 		}
-		//driver.quit();
+		driver.quit();
 
 	}
 	

@@ -2,9 +2,9 @@ package domain.detail.task;
 
 public class DashboardDetail {
 	private String sprintDate;
-
 	private String currentProject;
 	private String team;
+	private String sprintId;
 
 	public DashboardDetail(String sprintDate, String currentProject, String team) {
 		this.sprintDate = sprintDate;
@@ -14,6 +14,14 @@ public class DashboardDetail {
 
 	public DashboardDetail() {
 
+	}
+	
+	public String getSprintId() {
+		return sprintId;
+	}
+
+	public void setSprintId(String sprintId) {
+		this.sprintId = sprintId;
 	}
 
 	public String getSprintDate() {

@@ -153,11 +153,15 @@ public class Specification {
 	}
 
 	public void uploadDataSource() throws Exception {
-		DashboardDetail dashBoardDetail = _source.readDashboardDetailFromExternalDatasource();
+		//DashboardDetail dashBoardDetail = _source.readDashboardDetailFromExternalDatasource();
+		List<DashboardDetail> dashBoardDetail = _source.readListDashboardDetailFromExternalDatasource();
 		List<Task> listTask = _source.readTaskListFromExternalDatasource();
-		System.out.println("A");
-		for (int indexR = 1; indexR < listTask.size(); indexR++) {
-			addWorkItemSteps(listTask.get(indexR), dashBoardDetail);
+		for (int i = 0; i < dashBoardDetail.size(); i++) {
+			for (int j = 1; j < listTask.size(); j++) {
+				if (listTask.get(j).getSprintId().equals(dashBoardDetail.get(i).getSprintId())) {
+					addWorkItemSteps(listTask.get(j), dashBoardDetail.get(i));
+				}
+			}
 		}
 	}
 
